@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Roadmap Visualizer — Python Mastery Academy</title>
+  <style>
+    :root {
+      --bg:#0d1117;--card:#161b22;--border:#30363d;
+      --green:#3fb950;--blue:#58a6ff;--yellow:#d29922;
+      --orange:#f0883e;--red:#f85149;--purple:#bc8cff;
+      --text:#c9d1d9;--muted:#8b949e;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
+    header{background:var(--card);border-bottom:1px solid var(--border);padding:1.5rem 2rem;}
+    header h1{font-size:1.5rem;color:var(--text);}
+    nav{display:flex;gap:1rem;padding:0.8rem 2rem;background:var(--bg);border-bottom:1px solid var(--border);flex-wrap:wrap;}
+    nav a{color:var(--blue);text-decoration:none;padding:0.3rem 0.8rem;border:1px solid var(--border);border-radius:6px;font-size:0.85rem;}
+    nav a:hover{background:var(--border);}
+    .container{max-width:1000px;margin:0 auto;padding:2rem;}
+    .roadmap{display:flex;flex-direction:column;align-items:center;gap:0;padding:1rem 0;}
+    .track-section{width:100%;margin-bottom:2rem;}
+    .track-label{
+      text-align:center;font-size:1.1rem;font-weight:700;
+      padding:0.6rem 2rem;border-radius:20px;
+      display:inline-block;margin:0 auto 1.5rem;
+    }
+    .track-label-wrapper{text-align:center;}
+    .track-beginner{background:#1a4731;color:var(--green);}
+    .track-intermediate{background:#2a2008;color:var(--yellow);}
+    .track-advanced{background:#2a1908;color:var(--orange);}
+    .track-professional{background:#1e1b4b;color:var(--purple);}
+    .track-expert{background:#2a0808;color:var(--red);}
+    .phases-row{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+    .phase-node{
+      background:var(--card);border:2px solid var(--border);
+      border-radius:12px;padding:1rem;width:180px;text-align:center;
+      transition:all 0.2s;cursor:pointer;position:relative;
+    }
+    .phase-node:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,0,0,0.5);}
+    .phase-node .num{font-size:0.7rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;}
+    .phase-node .icon{font-size:1.8rem;margin:0.3rem 0;}
+    .phase-node .name{font-size:0.85rem;font-weight:600;color:var(--text);margin-bottom:0.3rem;}
+    .phase-node .key{font-size:0.7rem;color:var(--muted);}
+    .phase-node .arrow{font-size:1.5rem;color:var(--border);text-align:center;margin:0.5rem 0;}
+    .phase-node-beginner{border-color:#1a4731;}
+    .phase-node-beginner:hover{border-color:var(--green);}
+    .phase-node-intermediate{border-color:#2a2008;}
+    .phase-node-intermediate:hover{border-color:var(--yellow);}
+    .phase-node-advanced{border-color:#2a1908;}
+    .phase-node-advanced:hover{border-color:var(--orange);}
+    .phase-node-professional{border-color:#1e1b4b;}
+    .phase-node-professional:hover{border-color:var(--purple);}
+    .phase-node-expert{border-color:#2a0808;}
+    .phase-node-expert:hover{border-color:var(--red);}
+    .connector{
+      display:flex;justify-content:center;align-items:center;
+      height:40px;color:var(--border);font-size:1.5rem;
+    }
+    .milestone{
+      background:var(--card);border:2px solid var(--yellow);
+      border-radius:20px;padding:0.8rem 2rem;text-align:center;
+      color:var(--yellow);font-weight:700;font-size:1rem;
+      margin:1.5rem auto;display:inline-block;
+    }
+    .milestone-wrapper{text-align:center;margin:1rem 0;}
+    .legend{
+      display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;
+      margin-bottom:2rem;padding:1rem;background:var(--card);
+      border-radius:8px;border:1px solid var(--border);
+    }
+    .legend-item{display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;}
+    .legend-dot{width:12px;height:12px;border-radius:50%;}
+    .capstone{
+      background:linear-gradient(135deg,#2a0808,#1e1b4b);
+      border:2px solid var(--red);border-radius:16px;
+      padding:1.5rem 2rem;text-align:center;max-width:400px;margin:0 auto;
+    }
+    .capstone .icon{font-size:3rem;}
+    .capstone h3{color:var(--red);font-size:1.3rem;margin:0.5rem 0;}
+    .capstone p{color:var(--muted);font-size:0.85rem;}
+  </style>
+</head>
+<body>
+
+<header><h1>🗺️ Roadmap Visualizer</h1></header>
+<nav>
+  <a href="index.html">🏠 Home</a>
+  <a href="progress-dashboard.html">📊 Progress</a>
+  <a href="roadmap-visualizer.html">🗺️ Roadmap</a>
+  <a href="project-gallery.html">💼 Projects</a>
+</nav>
+
+<div class="container">
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#3fb950"></div> Beginner</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#d29922"></div> Intermediate</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f0883e"></div> Advanced</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#bc8cff"></div> Professional</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f85149"></div> Expert</div>
+  </div>
+
+  <!-- BEGINNER TRACK -->
+  <div class="track-section">
+    <div class="track-label-wrapper">
+      <span class="track-label track-beginner">🌱 BEGINNER TRACK — Phases 00–03</span>
+    </div>
+    <div class="phases-row">
+      <div class="phase-node phase-node-beginner">
+        <div class="num">Phase 00</div>
+        <div class="icon">⚙️</div>
+        <div class="name">Environment</div>
+        <div class="key">Python · VS Code · Git</div>
+      </div>
+      <div class="phase-node phase-node-beginner">
+        <div class="num">Phase 01</div>
+        <div class="icon">🐍</div>
+        <div class="name">Fundamentals</div>
+        <div class="key">Variables · Types · I/O</div>
+      </div>
+      <div class="phase-node phase-node-beginner">
+        <div class="num">Phase 02</div>
+        <div class="icon">🔀</div>
+        <div class="name">Control Flow</div>
+        <div class="key">If/Else · Loops</div>
+      </div>
+      <div class="phase-node phase-node-beginner">
+        <div class="num">Phase 03</div>
+        <div class="icon">📦</div>
+        <div class="name">Collections</div>
+        <div class="key">Lists · Dicts · Sets</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="milestone-wrapper">
+    <span class="milestone">🏅 BEGINNER MILESTONE — Can build simple CLI programs</span>
+  </div>
+  <div class="connector">↓</div>
+
+  <!-- INTERMEDIATE TRACK -->
+  <div class="track-section">
+    <div class="track-label-wrapper">
+      <span class="track-label track-intermediate">🌿 INTERMEDIATE TRACK — Phases 04–08</span>
+    </div>
+    <div class="phases-row">
+      <div class="phase-node phase-node-intermediate">
+        <div class="num">Phase 04</div>
+        <div class="icon">🔧</div>
+        <div class="name">Functions</div>
+        <div class="key">Scope · Lambda · Args</div>
+      </div>
+      <div class="phase-node phase-node-intermediate">
+        <div class="num">Phase 05</div>
+        <div class="icon">📁</div>
+        <div class="name">File Handling</div>
+        <div class="key">Text · CSV · JSON</div>
+      </div>
+      <div class="phase-node phase-node-intermediate">
+        <div class="num">Phase 06</div>
+        <div class="icon">🛡️</div>
+        <div class="name">Error Handling</div>
+        <div class="key">try · except · raise</div>
+      </div>
+      <div class="phase-node phase-node-intermediate">
+        <div class="num">Phase 07</div>
+        <div class="icon">🏛️</div>
+        <div class="name">OOP</div>
+        <div class="key">Classes · Inheritance</div>
+      </div>
+      <div class="phase-node phase-node-intermediate">
+        <div class="num">Phase 08</div>
+        <div class="icon">🏗️</div>
+        <div class="name">Projects</div>
+        <div class="key">7 Complete Apps</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="milestone-wrapper">
+    <span class="milestone">🥈 INTERMEDIATE MILESTONE — Can build multi-file Python applications</span>
+  </div>
+  <div class="connector">↓</div>
+
+  <!-- ADVANCED TRACK -->
+  <div class="track-section">
+    <div class="track-label-wrapper">
+      <span class="track-label track-advanced">🌳 ADVANCED TRACK — Phases 09–14</span>
+    </div>
+    <div class="phases-row">
+      <div class="phase-node phase-node-advanced">
+        <div class="num">Phase 09</div>
+        <div class="icon">🗄️</div>
+        <div class="name">Databases</div>
+        <div class="key">SQLite · PostgreSQL</div>
+      </div>
+      <div class="phase-node phase-node-advanced">
+        <div class="num">Phase 10</div>
+        <div class="icon">🌐</div>
+        <div class="name">Web Scraping</div>
+        <div class="key">requests · BS4</div>
+      </div>
+      <div class="phase-node phase-node-advanced">
+        <div class="num">Phase 11</div>
+        <div class="icon">🔗</div>
+        <div class="name">APIs</div>
+        <div class="key">REST · HTTP · JSON</div>
+      </div>
+      <div class="phase-node phase-node-advanced">
+        <div class="num">Phase 12</div>
+        <div class="icon">🤖</div>
+        <div class="name">Automation</div>
+        <div class="key">Excel · Files · Email</div>
+      </div>
+      <div class="phase-node phase-node-advanced">
+        <div class="num">Phase 13</div>
+        <div class="icon">📊</div>
+        <div class="name">Data Analysis</div>
+        <div class="key">Pandas · Matplotlib</div>
+      </div>
+      <div class="phase-node phase-node-advanced">
+        <div class="num">Phase 14</div>
+        <div class="icon">🧪</div>
+        <div class="name">Testing</div>
+        <div class="key">pytest · TDD</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="milestone-wrapper">
+    <span class="milestone">🥇 ADVANCED MILESTONE — Can build database-backed apps & analyze data</span>
+  </div>
+  <div class="connector">↓</div>
+
+  <!-- PROFESSIONAL TRACK -->
+  <div class="track-section">
+    <div class="track-label-wrapper">
+      <span class="track-label track-professional">🏆 PROFESSIONAL TRACK — Phases 15–18</span>
+    </div>
+    <div class="phases-row">
+      <div class="phase-node phase-node-professional">
+        <div class="num">Phase 15</div>
+        <div class="icon">🖥️</div>
+        <div class="name">GUI Apps</div>
+        <div class="key">Tkinter · Desktop</div>
+      </div>
+      <div class="phase-node phase-node-professional">
+        <div class="num">Phase 16</div>
+        <div class="icon">🌍</div>
+        <div class="name">Web Dev</div>
+        <div class="key">Flask · FastAPI</div>
+      </div>
+      <div class="phase-node phase-node-professional">
+        <div class="num">Phase 17</div>
+        <div class="icon">⚡</div>
+        <div class="name">Advanced Python</div>
+        <div class="key">Decorators · Async</div>
+      </div>
+      <div class="phase-node phase-node-professional">
+        <div class="num">Phase 18</div>
+        <div class="icon">💼</div>
+        <div class="name">Business Apps</div>
+        <div class="key">5 Enterprise Systems</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="milestone-wrapper">
+    <span class="milestone">🏆 PROFESSIONAL MILESTONE — Ready for junior/mid developer roles</span>
+  </div>
+  <div class="connector">↓</div>
+
+  <!-- EXPERT TRACK -->
+  <div class="track-section">
+    <div class="track-label-wrapper">
+      <span class="track-label track-expert">🚀 EXPERT TRACK — Phases 19–20</span>
+    </div>
+    <div class="phases-row">
+      <div class="phase-node phase-node-expert">
+        <div class="num">Phase 19</div>
+        <div class="icon">🏛️</div>
+        <div class="name">Soft. Engineering</div>
+        <div class="key">SOLID · Patterns</div>
+      </div>
+      <div class="phase-node phase-node-expert" style="width:200px;">
+        <div class="num">Phase 20</div>
+        <div class="icon">🏆</div>
+        <div class="name">CAPSTONE</div>
+        <div class="key">Full Production System</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector">↓</div>
+  <div class="capstone">
+    <div class="icon">🎓</div>
+    <h3>Python Mastery Complete</h3>
+    <p>Production-ready developer with a full portfolio of real projects</p>
+  </div>
+
+</div>
+</body>
+</html>

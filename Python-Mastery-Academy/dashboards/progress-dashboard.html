@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Progress Dashboard — Python Mastery Academy</title>
+  <style>
+    :root {
+      --bg: #0d1117; --card: #161b22; --border: #30363d;
+      --green: #3fb950; --blue: #58a6ff; --yellow: #d29922;
+      --orange: #f0883e; --red: #f85149; --purple: #bc8cff;
+      --text: #c9d1d9; --muted: #8b949e;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    header { background: var(--card); border-bottom: 1px solid var(--border); padding: 1.5rem 2rem; display: flex; align-items: center; gap: 1rem; }
+    header h1 { font-size: 1.5rem; color: var(--text); }
+    header .sub { color: var(--muted); font-size: 0.9rem; }
+    nav { display: flex; gap: 1rem; padding: 1rem 2rem; background: var(--bg); border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+    nav a { color: var(--blue); text-decoration: none; padding: 0.3rem 0.8rem; border: 1px solid var(--border); border-radius: 6px; font-size: 0.85rem; }
+    nav a:hover { background: var(--border); }
+    .container { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+    h2 { font-size: 1.2rem; color: var(--blue); margin: 2rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+    .overview { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+    .stat { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; text-align: center; }
+    .stat-num { font-size: 2.2rem; font-weight: 700; }
+    .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.3rem; }
+    .c-green { color: var(--green); } .c-blue { color: var(--blue); }
+    .c-yellow { color: var(--yellow); } .c-orange { color: var(--orange); }
+    .c-purple { color: var(--purple); }
+    .phases-list { display: flex; flex-direction: column; gap: 0.6rem; }
+    .phase-row {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1rem 1.2rem;
+      display: grid; grid-template-columns: 80px 1fr 120px 100px;
+      align-items: center; gap: 1rem;
+    }
+    .phase-row:hover { border-color: var(--blue); }
+    .phase-id { font-size: 0.75rem; color: var(--muted); font-weight: 600; }
+    .phase-name { font-size: 0.95rem; color: var(--text); }
+    .phase-name small { display: block; font-size: 0.75rem; color: var(--muted); margin-top: 0.2rem; }
+    .progress-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--green); border-radius: 3px; transition: width 0.5s; }
+    .progress-text { font-size: 0.75rem; color: var(--muted); margin-top: 0.3rem; }
+    .status-badge { font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 12px; text-align: center; cursor: pointer; }
+    .status-not-started { background: #1c1c1c; color: var(--muted); border: 1px solid var(--border); }
+    .status-in-progress { background: #2a2008; color: var(--yellow); border: 1px solid var(--yellow); }
+    .status-complete { background: #1a4731; color: var(--green); border: 1px solid var(--green); }
+    .track-header { background: var(--border); border-radius: 6px; padding: 0.5rem 1rem; font-size: 0.8rem; font-weight: 700; color: var(--text); letter-spacing: 0.5px; margin: 1rem 0 0.5rem; }
+    .instructions { background: var(--card); border: 1px solid var(--yellow); border-radius: 8px; padding: 1.2rem; margin-bottom: 2rem; }
+    .instructions h3 { color: var(--yellow); margin-bottom: 0.5rem; }
+    .instructions p { font-size: 0.9rem; color: var(--muted); }
+    .instructions code { background: var(--border); padding: 0.1rem 0.4rem; border-radius: 3px; font-family: monospace; font-size: 0.85rem; color: var(--text); }
+    select { background: var(--card); color: var(--text); border: 1px solid var(--border); border-radius: 4px; padding: 0.2rem 0.5rem; font-size: 0.8rem; cursor: pointer; }
+    .save-btn {
+      background: var(--green); color: #000; border: none; padding: 0.6rem 1.5rem;
+      border-radius: 6px; font-weight: 600; cursor: pointer; margin-top: 1rem; font-size: 0.9rem;
+    }
+    .save-btn:hover { opacity: 0.85; }
+    footer { text-align: center; padding: 2rem; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.8rem; margin-top: 2rem; }
+  </style>
+</head>
+<body>
+
+<header>
+  <span style="font-size:2rem">📊</span>
+  <div>
+    <h1>Progress Dashboard</h1>
+    <div class="sub">Track your learning journey through Python Mastery Academy</div>
+  </div>
+</header>
+
+<nav>
+  <a href="index.html">🏠 Home</a>
+  <a href="progress-dashboard.html">📊 Progress</a>
+  <a href="roadmap-visualizer.html">🗺️ Roadmap</a>
+  <a href="project-gallery.html">💼 Projects</a>
+</nav>
+
+<div class="container">
+
+  <div class="instructions">
+    <h3>📌 How to Use This Dashboard</h3>
+    <p>Change the status of each phase using the dropdown. Your progress updates live. For detailed item-by-item tracking, use <code>learning-roadmap/progress-tracker.md</code>. Progress is saved in your browser's localStorage.</p>
+  </div>
+
+  <h2>📈 Overall Progress</h2>
+  <div class="overview" id="overview">
+    <div class="stat"><div class="stat-num c-green" id="completed-count">0</div><div class="stat-label">Phases Complete</div></div>
+    <div class="stat"><div class="stat-num c-yellow" id="inprogress-count">0</div><div class="stat-label">In Progress</div></div>
+    <div class="stat"><div class="stat-num c-blue">21</div><div class="stat-label">Total Phases</div></div>
+    <div class="stat"><div class="stat-num c-purple" id="pct">0%</div><div class="stat-label">Overall Complete</div></div>
+    <div class="stat"><div class="stat-num c-orange" id="est-hours">0h</div><div class="stat-label">Hours Logged</div></div>
+  </div>
+
+  <div class="overall-bar" style="margin-bottom:2rem;">
+    <div style="font-size:0.85rem;color:var(--muted);margin-bottom:0.5rem;">Overall Academy Progress</div>
+    <div class="progress-bar" style="height:12px;">
+      <div class="progress-fill" id="overall-fill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <h2>🎓 Phase Progress</h2>
+
+  <div class="phases-list" id="phases-list">
+    <!-- Generated by JS -->
+  </div>
+
+  <button class="save-btn" onclick="saveProgress()">💾 Save Progress</button>
+
+</div>
+
+<footer>Python Mastery Academy — Progress Dashboard</footer>
+
+<script>
+const phases = [
+  { id: "00", name: "Environment Setup", topics: "Python, VS Code, Terminal, Git", track: "🌱 BEGINNER", hours: 5 },
+  { id: "01", name: "Python Fundamentals", topics: "Variables, Data Types, I/O, Strings", track: "🌱 BEGINNER", hours: 10 },
+  { id: "02", name: "Control Flow", topics: "If/Else, Loops, Match/Case", track: "🌱 BEGINNER", hours: 8 },
+  { id: "03", name: "Collections", topics: "Lists, Tuples, Sets, Dicts", track: "🌱 BEGINNER", hours: 10 },
+  { id: "04", name: "Functions", topics: "Params, Scope, Lambda, Recursion", track: "🌿 INTERMEDIATE", hours: 10 },
+  { id: "05", name: "File Handling", topics: "Text, CSV, JSON, os module", track: "🌿 INTERMEDIATE", hours: 7 },
+  { id: "06", name: "Error Handling", topics: "try/except, raise, Custom Exceptions", track: "🌿 INTERMEDIATE", hours: 5 },
+  { id: "07", name: "OOP", topics: "Classes, Inheritance, Polymorphism", track: "🌿 INTERMEDIATE", hours: 14 },
+  { id: "08", name: "Intermediate Projects", topics: "7 Complete CLI Applications", track: "🌿 INTERMEDIATE", hours: 18 },
+  { id: "09", name: "Databases", topics: "SQLite, PostgreSQL, CRUD", track: "🌳 ADVANCED", hours: 10 },
+  { id: "10", name: "Web Scraping", topics: "requests, BeautifulSoup", track: "🌳 ADVANCED", hours: 7 },
+  { id: "11", name: "APIs", topics: "REST, HTTP, JSON, Auth", track: "🌳 ADVANCED", hours: 9 },
+  { id: "12", name: "Automation", topics: "Excel, Files, Email, Scheduling", track: "🌳 ADVANCED", hours: 7 },
+  { id: "13", name: "Data Analysis", topics: "NumPy, Pandas, Matplotlib", track: "🌳 ADVANCED", hours: 12 },
+  { id: "14", name: "Testing", topics: "unittest, pytest, TDD", track: "🌳 ADVANCED", hours: 7 },
+  { id: "15", name: "GUI Applications", topics: "Tkinter, Desktop Apps", track: "🏆 PROFESSIONAL", hours: 9 },
+  { id: "16", name: "Web Development", topics: "Flask, FastAPI, REST API", track: "🏆 PROFESSIONAL", hours: 18 },
+  { id: "17", name: "Advanced Python", topics: "Decorators, Async, Generators", track: "🏆 PROFESSIONAL", hours: 12 },
+  { id: "18", name: "Business Projects", topics: "5 Enterprise Systems", track: "🏆 PROFESSIONAL", hours: 25 },
+  { id: "19", name: "Software Engineering", topics: "SOLID, Patterns, Clean Code", track: "🚀 EXPERT", hours: 12 },
+  { id: "20", name: "Capstone Project", topics: "Full Production Application", track: "🚀 EXPERT", hours: 35 },
+];
+
+let statuses = {};
+
+function loadProgress() {
+  const saved = localStorage.getItem('pma-progress');
+  if (saved) statuses = JSON.parse(saved);
+  else phases.forEach(p => statuses[p.id] = 'not-started');
+}
+
+function saveProgress() {
+  localStorage.setItem('pma-progress', JSON.stringify(statuses));
+  alert('✅ Progress saved!');
+}
+
+function renderPhases() {
+  const list = document.getElementById('phases-list');
+  list.innerHTML = '';
+  let currentTrack = '';
+
+  phases.forEach(phase => {
+    if (phase.track !== currentTrack) {
+      currentTrack = phase.track;
+      const header = document.createElement('div');
+      header.className = 'track-header';
+      header.textContent = currentTrack;
+      list.appendChild(header);
+    }
+
+    const status = statuses[phase.id] || 'not-started';
+    const pct = status === 'complete' ? 100 : status === 'in-progress' ? 40 : 0;
+
+    const row = document.createElement('div');
+    row.className = 'phase-row';
+    row.innerHTML = `
+      <div class="phase-id">PHASE ${phase.id}</div>
+      <div class="phase-name">
+        ${phase.name}
+        <small>${phase.topics}</small>
+      </div>
+      <div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+        <div class="progress-text">${pct}% — ~${phase.hours}h</div>
+      </div>
+      <select onchange="updateStatus('${phase.id}', this.value)">
+        <option value="not-started" ${status==='not-started'?'selected':''}>⬜ Not Started</option>
+        <option value="in-progress" ${status==='in-progress'?'selected':''}>🟡 In Progress</option>
+        <option value="complete" ${status==='complete'?'selected':''}>✅ Complete</option>
+      </select>
+    `;
+    list.appendChild(row);
+  });
+
+  updateOverview();
+}
+
+function updateStatus(id, val) {
+  statuses[id] = val;
+  renderPhases();
+}
+
+function updateOverview() {
+  const completed = Object.values(statuses).filter(s => s === 'complete').length;
+  const inProgress = Object.values(statuses).filter(s => s === 'in-progress').length;
+  const pct = Math.round((completed / phases.length) * 100);
+  const hours = phases.filter(p => statuses[p.id] === 'complete').reduce((s, p) => s + p.hours, 0);
+
+  document.getElementById('completed-count').textContent = completed;
+  document.getElementById('inprogress-count').textContent = inProgress;
+  document.getElementById('pct').textContent = pct + '%';
+  document.getElementById('est-hours').textContent = hours + 'h';
+  document.getElementById('overall-fill').style.width = pct + '%';
+}
+
+loadProgress();
+renderPhases();
+</script>
+
+</body>
+</html>

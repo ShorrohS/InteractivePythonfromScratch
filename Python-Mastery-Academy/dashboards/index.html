@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Python Mastery Academy — Home</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card: #161b22;
+      --border: #30363d;
+      --green: #3fb950;
+      --blue: #58a6ff;
+      --yellow: #d29922;
+      --orange: #f0883e;
+      --red: #f85149;
+      --purple: #bc8cff;
+      --text: #c9d1d9;
+      --muted: #8b949e;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      line-height: 1.6;
+    }
+    header {
+      background: linear-gradient(135deg, #1a2332, #0d1117);
+      border-bottom: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+    }
+    header h1 { font-size: 2.5rem; color: var(--green); margin-bottom: 0.5rem; }
+    header p { color: var(--muted); font-size: 1.1rem; }
+    .snake { font-size: 3rem; display: block; margin-bottom: 0.5rem; }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    nav a {
+      color: var(--blue);
+      text-decoration: none;
+      padding: 0.4rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    nav a:hover { background: var(--border); }
+    .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+    .section-title {
+      font-size: 1.4rem;
+      color: var(--blue);
+      margin: 2rem 0 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .phases-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .phase-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.2rem;
+      transition: border-color 0.2s;
+      position: relative;
+    }
+    .phase-card:hover { border-color: var(--blue); }
+    .phase-card .phase-num {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .phase-card h3 {
+      font-size: 1rem;
+      margin: 0.3rem 0 0.5rem;
+      color: var(--text);
+    }
+    .phase-card p { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.8rem; }
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-right: 0.3rem;
+    }
+    .badge-beginner { background: #1a4731; color: var(--green); }
+    .badge-intermediate { background: #2a2008; color: var(--yellow); }
+    .badge-advanced { background: #2a1908; color: var(--orange); }
+    .badge-professional { background: #1e1b4b; color: var(--purple); }
+    .badge-expert { background: #2a0808; color: var(--red); }
+    .phase-link {
+      font-size: 0.8rem;
+      color: var(--blue);
+      text-decoration: none;
+    }
+    .quick-start {
+      background: linear-gradient(135deg, #1a2e1a, #0d1117);
+      border: 1px solid var(--green);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .quick-start h2 { color: var(--green); margin-bottom: 1rem; }
+    .steps { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .step {
+      flex: 1;
+      min-width: 200px;
+      background: var(--card);
+      border-radius: 8px;
+      padding: 1rem;
+      border: 1px solid var(--border);
+    }
+    .step-num {
+      width: 32px; height: 32px;
+      background: var(--green);
+      color: #000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .step h4 { font-size: 0.9rem; color: var(--text); margin-bottom: 0.3rem; }
+    .step p { font-size: 0.8rem; color: var(--muted); }
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .stat {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+    }
+    .stat-num { font-size: 2rem; font-weight: 700; color: var(--green); }
+    .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; }
+    .tip-box {
+      background: var(--card);
+      border-left: 4px solid var(--yellow);
+      padding: 1rem 1.2rem;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .tip-box strong { color: var(--yellow); }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-top: 3rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <span class="snake">🐍</span>
+  <h1>Python Mastery Academy</h1>
+  <p>A complete self-paced Python learning system — from zero to production developer</p>
+</header>
+
+<nav>
+  <a href="index.html">🏠 Home</a>
+  <a href="progress-dashboard.html">📊 Progress</a>
+  <a href="roadmap-visualizer.html">🗺️ Roadmap</a>
+  <a href="project-gallery.html">💼 Projects</a>
+  <a href="../learning-roadmap/roadmap.md">📄 Full Roadmap</a>
+</nav>
+
+<div class="container">
+
+  <!-- Quick Start -->
+  <div class="quick-start">
+    <h2>🚀 Quick Start — Begin Here</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h4>Open Phase 00</h4>
+        <p>Start with <code>phase-00-environment/README.md</code> — setup your tools</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h4>Follow the Checklist</h4>
+        <p>Use <code>learning-roadmap/learning-checklist.md</code> daily</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h4>Run Every Demo</h4>
+        <p>Open each <code>demos/</code> folder and run every .py file</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h4>Attempt Exercises First</h4>
+        <p>Try exercises before checking <code>solutions/</code></p>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <h4>Track Progress</h4>
+        <p>Update <code>progress-tracker.md</code> as you complete each item</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Academy Stats -->
+  <h2 class="section-title">📚 Academy Contents</h2>
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-num">21</div><div class="stat-label">Phases</div></div>
+    <div class="stat"><div class="stat-num">60+</div><div class="stat-label">Lessons</div></div>
+    <div class="stat"><div class="stat-num">80+</div><div class="stat-label">Demo Files</div></div>
+    <div class="stat"><div class="stat-num">300+</div><div class="stat-label">Exercises</div></div>
+    <div class="stat"><div class="stat-num">40+</div><div class="stat-label">Projects</div></div>
+    <div class="stat"><div class="stat-num">8</div><div class="stat-label">Portfolio Apps</div></div>
+  </div>
+
+  <!-- Phase Cards -->
+  <h2 class="section-title">🎓 All Phases</h2>
+
+  <div class="phases-grid">
+
+    <div class="phase-card">
+      <div class="phase-num">Phase 00</div>
+      <h3>⚙️ Environment Setup</h3>
+      <p>Python, VS Code, Terminal, Virtual Environments, Git</p>
+      <span class="badge badge-beginner">Beginner</span>
+      <br><br>
+      <a class="phase-link" href="../phase-00-environment/README.md">→ Open Phase 00</a>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-num">Phase 01</div>
+      <h3>🟢 Python Fundamentals</h3>
+      <p>Variables, Data Types, Input/Output, Operators, Strings, Numbers, Booleans</p>
+      <span class="badge badge-beginner">Beginner</span>
+      <br><br>
+      <a class="phase-link" href="../phase-01-fundamentals/README.md">→ Open Phase 01</a>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-num">Phase 02</div>
+      <h3>🔀 Control Flow</h3>
+      <p>If/Else, Match/Case, While Loops, For Loops, Nested Loops</p>
+      <span class="badge badge-beginner">Beginner</span>
+      <br><br>
+      <a class="phase-link" href="../phase-02-control-flow/README.md">→ Open Phase 02</a>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-num">Phase 03</div>
+      <h3>📦 Collections</h3>
+      <p>Lists, Tuples, Sets, Dictionaries, Comprehensions</p>
+      <span class="badge badge-beginner">Beginner</span>
+      <br><br>
+      <a class="phase-link" href="../phase-03-collections/README.md">→ Open Phase 03</a>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-num">Phase 04</div>
+      <h3>🔧 Functions</h3>
+      <p>Parameters, Return Values, Scope, Recursion, Lambda, *args/**kwargs</p>
+      <span class="badge badge-intermediate">Intermediate</span>
+      <br><br>
+      <a class="phase-link" href="../phase-04-functions/README.md">→ Open Phase 04</a>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-num">Phase 05</div>
+      <h3>📁 File Handling</h3>
+      <p>Text Files, CSV, JSON, os module, pathlib</p>
+      <span class="badge badge-intermediate">Intermediate</span>
+      <br><br>
+      <a class="phase-link" href="../phase-05-file-handling/README.md">→ Open Phase 05</a>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-num">Phase 06</div>
+      <h3>🛡️ Error Handling</h3>
+      <p>try/except/finally, raise, Custom Exceptions, Defensive Programming</p>
+      <span class="badge badge-intermediate">Intermediate</span>
+      <br><br>
+      <a class="phase-link" href="../phase-06-error-handling/README.md">→ Open Phase 06</a>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-num">Phase 07</div>
+      <h3>🏛️ OOP</h3>
+      <p>Classes, Inheritance, Polymorphism, Encapsulation, Abstraction</p>
+      <span class="badge badge-intermediate">Intermediate</span>
+      <br><br>
+      <a class="phase-link" href="../phase-07-oop/README.md">→ Open Phase 07</a>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-num">Phase 08</div>
+      <h3>🏗️ Intermediate Projects</h3>
+      <p>To-Do App, Notes, Password Manager, Contact Manager, Payroll</p>
+      <span class="badge badge-intermediate">Intermediate</span>
+      <br><br>
+      <a class="phase-link" href="../phase-08-intermediate-projects/">→ Open Phase 08</a>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-num">Phase 09</div>
+      <h3>🗄️ Databases</h3>
+      <p>SQLite, PostgreSQL, CRUD, SQL Fundamentals</p>
+      <span class="badge badge-advanced">Advanced</span>
+      <br><br>
+      <a class="phase-link" href="../phase-09-databases/README.md">→ Open Phase 09</a>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-num">Phase 10</div>
+      <h3>🌐 Web Scraping</h3>
+      <p>requests, BeautifulSoup, Data Extraction</p>
+      <span class="badge badge-advanced">Advanced</span>
+      <br><br>
+      <a class="phase-link" href="../phase-10-web-scraping/README.md">→ Open Phase 10</a>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-num">Phase 11</div>
+      <h3>🔗 APIs</h3>
+      <p>REST, HTTP, JSON, Authentication, Weather & Currency APIs</p>
+      <span class="badge badge-advanced">Advanced</span>
+      <br><br>
+      <a class="phase-link" href="../phase-11-apis/README.md">→ Open Phase 11</a>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-num">Phase 12</div>
+      <h3>🤖 Automation</h3>
+      <p>Excel, File System, Email, Scheduling</p>
+      <span class="badge badge-advanced">Advanced</span>
+      <br><br>
+      <a class="phase-link" href="../phase-12-automation/README.md">→ Open Phase 12</a>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-num">Phase 13</div>
+      <h3>📊 Data Analysis</h3>
+      <p>NumPy, Pandas, Matplotlib, Sales Dashboard</p>
+      <span class="badge badge-advanced">Advanced</span>
+      <br><br>
+      <a class="phase-link" href="../phase-13-data-analysis/README.md">→ Open Phase 13</a>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-num">Phase 14</div>
+      <h3>🧪 Testing</h3>
+      <p>unittest, pytest, TDD, Coverage</p>
+      <span class="badge badge-advanced">Advanced</span>
+      <br><br>
+      <a class="phase-link" href="../phase-14-testing/README.md">→ Open Phase 14</a>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-num">Phase 15</div>
+      <h3>🖥️ GUI Applications</h3>
+      <p>Tkinter, Desktop Apps, Calculator, Student Manager</p>
+      <span class="badge badge-professional">Professional</span>
+      <br><br>
+      <a class="phase-link" href="../phase-15-gui/README.md">→ Open Phase 15</a>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-num">Phase 16</div>
+      <h3>🌍 Web Development</h3>
+      <p>Flask, FastAPI, REST APIs, Web Applications</p>
+      <span class="badge badge-professional">Professional</span>
+      <br><br>
+      <a class="phase-link" href="../phase-16-web-development/README.md">→ Open Phase 16</a>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-num">Phase 17</div>
+      <h3>⚡ Advanced Python</h3>
+      <p>Decorators, Generators, Async, Multithreading</p>
+      <span class="badge badge-professional">Professional</span>
+      <br><br>
+      <a class="phase-link" href="../phase-17-advanced-python/README.md">→ Open Phase 17</a>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-num">Phase 18</div>
+      <h3>💼 Business Projects</h3>
+      <p>Employee System, Expense App, Sales Analytics, Inventory, Tickets</p>
+      <span class="badge badge-professional">Professional</span>
+      <br><br>
+      <a class="phase-link" href="../phase-18-business-projects/">→ Open Phase 18</a>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-num">Phase 19</div>
+      <h3>🏛️ Software Engineering</h3>
+      <p>SOLID, Design Patterns, Clean Code, Logging, CI/CD</p>
+      <span class="badge badge-expert">Expert</span>
+      <br><br>
+      <a class="phase-link" href="../phase-19-software-engineering/README.md">→ Open Phase 19</a>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-num">Phase 20</div>
+      <h3>🏆 Capstone Project</h3>
+      <p>Full production system: API + DB + Auth + Dashboard + Tests + Deployment</p>
+      <span class="badge badge-expert">Expert</span>
+      <br><br>
+      <a class="phase-link" href="../phase-20-capstone/">→ Open Phase 20</a>
+    </div>
+
+  </div>
+
+  <!-- Tips -->
+  <h2 class="section-title">💡 Study Tips</h2>
+  <div class="tip-box"><strong>💡 Tip 1:</strong> Always type the code yourself. Never copy-paste. Muscle memory matters in programming.</div>
+  <div class="tip-box"><strong>💡 Tip 2:</strong> Run every demo file before reading the lesson. Seeing output first makes the theory stick faster.</div>
+  <div class="tip-box"><strong>💡 Tip 3:</strong> When an exercise seems too hard, break it into smaller steps. What is the very first thing you need to do?</div>
+  <div class="tip-box"><strong>💡 Tip 4:</strong> Errors are not failures. Every error message tells you exactly what went wrong and where. Read them carefully.</div>
+  <div class="tip-box"><strong>💡 Tip 5:</strong> Consistency beats intensity. 1 hour daily is better than 8 hours on weekends.</div>
+
+</div>
+
+<footer>
+  Python Mastery Academy &nbsp;•&nbsp; Your complete self-paced learning system &nbsp;•&nbsp; 🐍
+</footer>
+
+</body>
+</html>

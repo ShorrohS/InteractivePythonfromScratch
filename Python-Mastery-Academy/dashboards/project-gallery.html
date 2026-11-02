@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Project Gallery — Python Mastery Academy</title>
+  <style>
+    :root {
+      --bg:#0d1117;--card:#161b22;--border:#30363d;
+      --green:#3fb950;--blue:#58a6ff;--yellow:#d29922;
+      --orange:#f0883e;--purple:#bc8cff;--red:#f85149;
+      --text:#c9d1d9;--muted:#8b949e;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
+    header{background:var(--card);border-bottom:1px solid var(--border);padding:1.5rem 2rem;}
+    header h1{font-size:1.5rem;}
+    nav{display:flex;gap:1rem;padding:0.8rem 2rem;background:var(--bg);border-bottom:1px solid var(--border);flex-wrap:wrap;}
+    nav a{color:var(--blue);text-decoration:none;padding:0.3rem 0.8rem;border:1px solid var(--border);border-radius:6px;font-size:0.85rem;}
+    nav a:hover{background:var(--border);}
+    .container{max-width:1200px;margin:0 auto;padding:2rem;}
+    h2{font-size:1.2rem;color:var(--blue);margin:2rem 0 1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border);}
+    .filter-bar{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.5rem;}
+    .filter-btn{background:var(--card);border:1px solid var(--border);color:var(--muted);padding:0.4rem 1rem;border-radius:20px;cursor:pointer;font-size:0.85rem;transition:all 0.2s;}
+    .filter-btn.active,.filter-btn:hover{background:var(--border);color:var(--text);}
+    .projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.2rem;}
+    .project-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;transition:border-color 0.2s;}
+    .project-card:hover{border-color:var(--blue);}
+    .project-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.8rem;}
+    .project-num{font-size:0.7rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;}
+    .difficulty{font-size:0.75rem;padding:0.15rem 0.5rem;border-radius:10px;}
+    .d-beginner{background:#1a4731;color:var(--green);}
+    .d-intermediate{background:#2a2008;color:var(--yellow);}
+    .d-advanced{background:#2a1908;color:var(--orange);}
+    .d-professional{background:#1e1b4b;color:var(--purple);}
+    .d-expert{background:#2a0808;color:var(--red);}
+    .project-title{font-size:1rem;font-weight:600;margin-bottom:0.5rem;color:var(--text);}
+    .project-desc{font-size:0.85rem;color:var(--muted);margin-bottom:1rem;line-height:1.5;}
+    .project-tags{display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:1rem;}
+    .tag{background:var(--border);color:var(--muted);font-size:0.7rem;padding:0.15rem 0.5rem;border-radius:10px;}
+    .project-phase{font-size:0.75rem;color:var(--blue);}
+    .phase-badge{display:inline-block;background:rgba(88,166,255,0.1);border:1px solid rgba(88,166,255,0.3);border-radius:4px;padding:0.2rem 0.5rem;font-size:0.75rem;color:var(--blue);margin-top:0.5rem;}
+    .check{float:right;font-size:1.2rem;cursor:pointer;user-select:none;}
+    footer{text-align:center;padding:2rem;border-top:1px solid var(--border);color:var(--muted);font-size:0.8rem;margin-top:2rem;}
+  </style>
+</head>
+<body>
+
+<header><h1>💼 Project Gallery</h1></header>
+<nav>
+  <a href="index.html">🏠 Home</a>
+  <a href="progress-dashboard.html">📊 Progress</a>
+  <a href="roadmap-visualizer.html">🗺️ Roadmap</a>
+  <a href="project-gallery.html">💼 Projects</a>
+</nav>
+
+<div class="container">
+
+  <h2>🎯 All 40+ Projects</h2>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterProjects('all', this)">All</button>
+    <button class="filter-btn" onclick="filterProjects('beginner', this)">Beginner</button>
+    <button class="filter-btn" onclick="filterProjects('intermediate', this)">Intermediate</button>
+    <button class="filter-btn" onclick="filterProjects('advanced', this)">Advanced</button>
+    <button class="filter-btn" onclick="filterProjects('professional', this)">Professional</button>
+    <button class="filter-btn" onclick="filterProjects('expert', this)">Expert</button>
+    <button class="filter-btn" onclick="filterProjects('portfolio', this)">Portfolio</button>
+  </div>
+
+  <div class="projects-grid" id="projects-grid"></div>
+
+</div>
+
+<footer>Python Mastery Academy — Project Gallery</footer>
+
+<script>
+const projects = [
+  {phase:"00", title:"First Python Project",desc:"Create a professionally structured project with venv, git, and a greet module.",tags:["git","venv","terminal"],difficulty:"beginner",category:"beginner"},
+  {phase:"01", title:"Greeting App",desc:"Interactive personal greeting app using input, variables, and f-strings.",tags:["input","strings","f-strings"],difficulty:"beginner",category:"beginner"},
+  {phase:"01", title:"Employee Profile",desc:"Multi-field employee profile with formatted output and salary breakdown.",tags:["variables","math","formatting"],difficulty:"beginner",category:"beginner"},
+  {phase:"01", title:"Expense Tracker",desc:"Monthly expense breakdown with totals, percentages, and budget status.",tags:["math","input","formatting"],difficulty:"beginner",category:"beginner"},
+  {phase:"01", title:"Calculator",desc:"Full scientific calculator using arithmetic operators and math module.",tags:["operators","math","functions"],difficulty:"beginner",category:"beginner"},
+  {phase:"01", title:"Username Generator",desc:"Corporate username generator from employee names — multiple formats.",tags:["strings","methods","formatting"],difficulty:"beginner",category:"beginner"},
+  {phase:"02", title:"Grade System",desc:"Student grade classifier with GPA calculation and pass/fail status.",tags:["if/else","comparison","formatting"],difficulty:"beginner",category:"beginner"},
+  {phase:"02", title:"ATM Menu",desc:"Interactive ATM with PIN verification, deposits, withdrawals, and history.",tags:["while loops","menus","validation"],difficulty:"beginner",category:"beginner"},
+  {phase:"02", title:"Payroll Processor",desc:"Loop through employee list and generate payroll report.",tags:["for loops","lists","formatting"],difficulty:"beginner",category:"beginner"},
+  {phase:"03", title:"Shopping Cart",desc:"Add/remove items, calculate totals, apply discounts, checkout.",tags:["lists","dicts","loops"],difficulty:"intermediate",category:"intermediate"},
+  {phase:"03", title:"Student Management",desc:"Student records with grades, statistics, and sorting.",tags:["dicts","sorting","stats"],difficulty:"intermediate",category:"intermediate"},
+  {phase:"03", title:"Inventory System",desc:"Product inventory with stock tracking and low-stock alerts.",tags:["dicts","lists","CRUD"],difficulty:"intermediate",category:"intermediate"},
+  {phase:"04", title:"Calculator Engine",desc:"All operations as reusable functions with type hints.",tags:["functions","type hints","math"],difficulty:"intermediate",category:"intermediate"},
+  {phase:"04", title:"Payroll Module",desc:"Payroll calculations as a proper function library.",tags:["functions","*args","**kwargs"],difficulty:"intermediate",category:"intermediate"},
+  {phase:"05", title:"Journal App",desc:"Personal journal with timestamped entries saved to text file.",tags:["file I/O","datetime","append"],difficulty:"intermediate",category:"intermediate"},
+  {phase:"05", title:"Expense Tracker CSV",desc:"Track expenses in CSV file with read/write capabilities.",tags:["CSV","file I/O","data"],difficulty:"intermediate",category:"intermediate"},
+  {phase:"06", title:"ATM Simulator",desc:"Full ATM with error handling for invalid amounts and insufficient funds.",tags:["exceptions","validation","OOP"],difficulty:"intermediate",category:"intermediate"},
+  {phase:"06", title:"Banking Simulator",desc:"Banking system with custom exceptions for all error cases.",tags:["custom exceptions","raise","try/except"],difficulty:"intermediate",category:"intermediate"},
+  {phase:"07", title:"Library Management",desc:"Book, Member, Library classes with borrow/return tracking.",tags:["OOP","inheritance","JSON"],difficulty:"intermediate",category:"intermediate"},
+  {phase:"07", title:"Employee System",desc:"Employee class hierarchy: FullTime, PartTime, Commission.",tags:["OOP","inheritance","polymorphism"],difficulty:"intermediate",category:"intermediate"},
+  {phase:"07", title:"Banking System",desc:"Account class hierarchy with savings, checking, overdraft protection.",tags:["OOP","abstract","encapsulation"],difficulty:"intermediate",category:"intermediate"},
+  {phase:"08", title:"To-Do App",desc:"Complete task manager with priorities, JSON persistence, and OOP.",tags:["OOP","JSON","CLI"],difficulty:"intermediate",category:"intermediate"},
+  {phase:"08", title:"Contact Manager",desc:"Full contact book with search, update, delete, JSON storage.",tags:["OOP","JSON","CRUD"],difficulty:"intermediate",category:"intermediate"},
+  {phase:"08", title:"Employee Payroll System",desc:"Employee management with payroll generation and CSV reports.",tags:["OOP","CSV","reports"],difficulty:"intermediate",category:"intermediate"},
+  {phase:"09", title:"Student Database App",desc:"Full CRUD student management with SQLite and analytics queries.",tags:["SQLite","SQL","CRUD"],difficulty:"advanced",category:"advanced"},
+  {phase:"09", title:"Inventory Database",desc:"Product inventory with categories, suppliers, and reorder alerts.",tags:["SQLite","joins","queries"],difficulty:"advanced",category:"advanced"},
+  {phase:"10", title:"News Scraper",desc:"Scrape headlines from news sites and save to CSV.",tags:["requests","BeautifulSoup","CSV"],difficulty:"advanced",category:"advanced"},
+  {phase:"11", title:"Weather Dashboard",desc:"Real-time weather display using OpenWeatherMap API.",tags:["API","requests","JSON"],difficulty:"advanced",category:"advanced"},
+  {phase:"12", title:"File Organizer",desc:"Automatically organizes downloads folder by file type.",tags:["automation","os","shutil"],difficulty:"advanced",category:"advanced"},
+  {phase:"13", title:"Sales Analytics Dashboard",desc:"Analyze sales CSV data with charts and KPI summaries.",tags:["Pandas","Matplotlib","analytics"],difficulty:"advanced",category:"advanced"},
+  {phase:"14", title:"Calculator Test Suite",desc:"Full pytest test suite for the calculator engine project.",tags:["pytest","TDD","coverage"],difficulty:"advanced",category:"advanced"},
+  {phase:"15", title:"Calculator GUI",desc:"Desktop calculator application with Tkinter buttons and display.",tags:["Tkinter","events","GUI"],difficulty:"professional",category:"professional"},
+  {phase:"16", title:"Flask Blog",desc:"Full web blog with routes, templates, and SQLite backend.",tags:["Flask","HTML","SQLite"],difficulty:"professional",category:"professional"},
+  {phase:"16", title:"FastAPI Inventory Service",desc:"REST API for inventory management with docs.",tags:["FastAPI","REST","Pydantic"],difficulty:"professional",category:"professional"},
+  {phase:"18", title:"Employee Management System",desc:"End-to-end HR system with full CRUD, payroll, and reports.",tags:["OOP","SQLite","reports","CLI"],difficulty:"professional",category:"professional"},
+  {phase:"18", title:"Sales Analytics Platform",desc:"Complete sales analytics with Pandas, charts, and Excel export.",tags:["Pandas","Matplotlib","Excel"],difficulty:"professional",category:"professional"},
+  {phase:"20", title:"TaskFlow Pro — Capstone",desc:"Production REST API with FastAPI, SQLite, JWT auth, and dashboard.",tags:["FastAPI","JWT","SQLite","OOP"],difficulty:"expert",category:"expert"},
+  {phase:"PF", title:"Sales Analytics Dashboard",desc:"Portfolio-ready sales analysis system with interactive charts.",tags:["Pandas","Matplotlib","Excel"],difficulty:"expert",category:"portfolio"},
+  {phase:"PF", title:"Employee Portal",desc:"Flask web portal with employee CRUD, auth, and reports.",tags:["Flask","SQLite","Auth","HTML"],difficulty:"expert",category:"portfolio"},
+  {phase:"PF", title:"REST API Platform",desc:"FastAPI backend with full auth, CRUD, docs, tests.",tags:["FastAPI","JWT","pytest","Docker"],difficulty:"expert",category:"portfolio"},
+];
+
+function filterProjects(category, btn) {
+  document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  renderProjects(category);
+}
+
+function renderProjects(filter = "all") {
+  const grid = document.getElementById("projects-grid");
+  const filtered = filter === "all" ? projects : projects.filter(p => p.category === filter);
+  
+  const stored = JSON.parse(localStorage.getItem("pma-completed-projects") || "{}");
+  
+  grid.innerHTML = filtered.map((p, i) => {
+    const id = `${p.phase}-${p.title.toLowerCase().replace(/ /g, "-")}`;
+    const checked = stored[id] ? "✅" : "⬜";
+    return `
+    <div class="project-card" data-category="${p.category}">
+      <div class="project-header">
+        <div>
+          <div class="project-num">Phase ${p.phase}</div>
+          <span class="difficulty d-${p.difficulty}">${p.difficulty}</span>
+        </div>
+        <span class="check" title="Mark complete" onclick="toggleComplete('${id}', this)">${checked}</span>
+      </div>
+      <div class="project-title">${p.title}</div>
+      <div class="project-desc">${p.desc}</div>
+      <div class="project-tags">
+        ${p.tags.map(t => `<span class="tag">${t}</span>`).join("")}
+      </div>
+    </div>`;
+  }).join("");
+}
+
+function toggleComplete(id, el) {
+  const stored = JSON.parse(localStorage.getItem("pma-completed-projects") || "{}");
+  stored[id] = !stored[id];
+  localStorage.setItem("pma-completed-projects", JSON.stringify(stored));
+  el.textContent = stored[id] ? "✅" : "⬜";
+}
+
+renderProjects();
+</script>
+</body>
+</html>
