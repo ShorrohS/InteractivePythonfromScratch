@@ -278,10 +278,20 @@
       return m;
     }
 
+    // Try local relative path first (works after .nojekyll), fallback to jsDelivr CDN
+    const REPO = 'ShorrohS/InteractivePythonfromScratch';
+    const BRANCH = 'main';
+    const CDN_URL = `https://cdn.jsdelivr.net/gh/${REPO}@${BRANCH}/${rawPath}`;
+
     async function load() {
       buildBreadcrumb(rawPath);
       try {
-        const res = await fetch(rawPath);
+        // Primary: relative fetch (same-origin, works with .nojekyll)
+        let res = await fetch(rawPath);
+        // Fallback: jsDelivr CDN (always works, cached globally, CORS-safe)
+        if (!res.ok) {
+          res = await fetch(CDN_URL);
+        }
         if (!res.ok) throw new Error('HTTP '+res.status+': '+res.statusText);
         const text = await res.text();
 
@@ -315,3 +325,4 @@
   </script>
 </body>
 </html>
+
