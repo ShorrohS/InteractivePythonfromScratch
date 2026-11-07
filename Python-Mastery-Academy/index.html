@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Python Mastery Academy — Navigation Hub</title>
+  <style>
+    :root {
+      --bg:#0d1117; --card:#161b22; --border:#30363d;
+      --green:#3fb950; --blue:#58a6ff; --yellow:#d29922;
+      --orange:#f0883e; --red:#f85149; --purple:#bc8cff;
+      --cyan:#39d353; --pink:#f778ba; --text:#c9d1d9; --muted:#8b949e;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;}
+
+    /* ── Header ── */
+    header{background:linear-gradient(135deg,#1a2332,#0d1117);border-bottom:1px solid var(--border);padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+    header h1{font-size:1.6rem;color:var(--green);}
+    header p{color:var(--muted);font-size:0.85rem;margin-top:0.2rem;}
+    .search-box{display:flex;gap:0.5rem;align-items:center;}
+    #search{background:var(--card);border:1px solid var(--border);color:var(--text);padding:0.5rem 1rem;border-radius:6px;font-size:0.85rem;width:280px;}
+    #search:focus{outline:none;border-color:var(--blue);}
+    #search-count{color:var(--muted);font-size:0.8rem;white-space:nowrap;}
+
+    /* ── Top nav ── */
+    nav{display:flex;gap:0.5rem;padding:0.8rem 2rem;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:wrap;align-items:center;}
+    nav a{color:var(--blue);text-decoration:none;padding:0.3rem 0.8rem;border:1px solid var(--border);border-radius:6px;font-size:0.8rem;white-space:nowrap;}
+    nav a:hover{background:var(--border);}
+    .expand-all{margin-left:auto;background:var(--border);color:var(--text);border:none;padding:0.3rem 1rem;border-radius:6px;cursor:pointer;font-size:0.8rem;}
+    .expand-all:hover{background:#444;}
+
+    /* ── Legend ── */
+    .legend{display:flex;gap:0.8rem;padding:0.7rem 2rem;background:var(--bg);border-bottom:1px solid var(--border);flex-wrap:wrap;}
+    .leg{display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;color:var(--muted);}
+    .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+
+    /* ── Main layout ── */
+    .container{max-width:1400px;margin:0 auto;padding:1.5rem 2rem;display:grid;grid-template-columns:220px 1fr;gap:1.5rem;}
+
+    /* ── Sidebar ── */
+    .sidebar{position:sticky;top:1rem;align-self:start;max-height:calc(100vh - 2rem);overflow-y:auto;}
+    .sidebar::-webkit-scrollbar{width:4px;}
+    .sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+    .sidebar h3{color:var(--muted);font-size:0.7rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:0.5rem;padding:0.3rem 0;}
+    .sidebar-link{display:block;padding:0.35rem 0.8rem;color:var(--muted);text-decoration:none;border-radius:4px;font-size:0.82rem;transition:all 0.15s;border-left:2px solid transparent;margin-bottom:1px;}
+    .sidebar-link:hover,.sidebar-link.active{color:var(--text);background:var(--card);border-left-color:var(--blue);}
+    .sidebar-section{margin-bottom:1.2rem;}
+
+    /* ── Phase sections ── */
+    .phase-section{background:var(--card);border:1px solid var(--border);border-radius:10px;margin-bottom:1rem;overflow:hidden;}
+    .phase-header{display:flex;align-items:center;gap:0.8rem;padding:0.9rem 1.2rem;cursor:pointer;user-select:none;transition:background 0.15s;}
+    .phase-header:hover{background:rgba(88,166,255,0.05);}
+    .phase-toggle{color:var(--muted);font-size:0.9rem;transition:transform 0.2s;flex-shrink:0;}
+    .phase-section.open .phase-toggle{transform:rotate(90deg);}
+    .phase-num{font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;min-width:60px;}
+    .phase-title{font-size:0.95rem;font-weight:600;color:var(--text);flex:1;}
+    .phase-meta{display:flex;gap:0.4rem;align-items:center;flex-shrink:0;}
+    .phase-badge{font-size:0.68rem;padding:0.15rem 0.5rem;border-radius:10px;white-space:nowrap;}
+    .b-beginner{background:#1a4731;color:var(--green);}
+    .b-intermediate{background:#2a2008;color:var(--yellow);}
+    .b-advanced{background:#2a1908;color:var(--orange);}
+    .b-professional{background:#1e1b4b;color:var(--purple);}
+    .b-expert{background:#2a0808;color:var(--red);}
+    .file-count{color:var(--muted);font-size:0.75rem;}
+
+    /* ── Phase body ── */
+    .phase-body{display:none;border-top:1px solid var(--border);}
+    .phase-section.open .phase-body{display:block;}
+
+    /* ── File groups ── */
+    .file-group{padding:0.8rem 1.2rem;border-bottom:1px solid rgba(48,54,61,0.5);}
+    .file-group:last-child{border-bottom:none;}
+    .group-label{font-size:0.7rem;text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-bottom:0.5rem;display:flex;align-items:center;gap:0.4rem;}
+    .files-grid{display:flex;flex-direction:column;gap:0.2rem;}
+
+    /* ── File links ── */
+    .file-link{display:flex;align-items:center;gap:0.5rem;padding:0.3rem 0.6rem;border-radius:5px;text-decoration:none;font-size:0.82rem;transition:background 0.12s;color:var(--text);}
+    .file-link:hover{background:var(--border);}
+    .file-link .file-icon{font-size:0.85rem;flex-shrink:0;width:16px;text-align:center;}
+    .file-link .file-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+    .file-link .file-type{font-size:0.65rem;padding:0.1rem 0.4rem;border-radius:8px;flex-shrink:0;opacity:0.8;}
+
+    /* Tag colors by type */
+    .tag-readme{background:#1a4731;color:var(--green);}
+    .tag-lesson{background:rgba(88,166,255,0.15);color:var(--blue);}
+    .tag-demo{background:rgba(63,185,80,0.15);color:var(--green);}
+    .tag-exercise{background:rgba(210,153,34,0.15);color:var(--yellow);}
+    .tag-solution{background:rgba(240,136,62,0.15);color:var(--orange);}
+    .tag-project{background:rgba(188,140,255,0.15);color:var(--purple);}
+    .tag-quiz{background:rgba(57,211,83,0.15);color:var(--cyan);}
+    .tag-cheatsheet{background:rgba(247,120,186,0.15);color:var(--pink);}
+    .tag-debug{background:rgba(248,81,73,0.15);color:var(--red);}
+    .tag-assessment{background:rgba(248,81,73,0.1);color:var(--red);}
+    .tag-docs{background:rgba(139,148,158,0.15);color:var(--muted);}
+    .tag-py{background:rgba(63,185,80,0.2);color:var(--green);}
+
+    /* ── Non-phase sections ── */
+    .extra-section{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem 1.2rem;margin-bottom:1rem;}
+    .extra-section h3{color:var(--blue);font-size:0.9rem;margin-bottom:0.7rem;padding-bottom:0.4rem;border-bottom:1px solid var(--border);}
+
+    /* ── No results ── */
+    .no-results{text-align:center;padding:3rem;color:var(--muted);display:none;}
+
+    /* ── Stats bar ── */
+    .stats{display:flex;gap:1.5rem;padding:0.7rem 2rem;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:wrap;}
+    .stat{font-size:0.8rem;color:var(--muted);}
+    .stat strong{color:var(--text);}
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar{width:6px;height:6px;}
+    ::-webkit-scrollbar-track{background:var(--bg);}
+    ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+    /* ── Responsive ── */
+    @media(max-width:900px){
+      .container{grid-template-columns:1fr;}
+      .sidebar{display:none;}
+    }
+
+    /* ── Highlight search match ── */
+    .hidden-by-search{display:none!important;}
+    mark{background:rgba(210,153,34,0.35);color:var(--yellow);border-radius:2px;padding:0 2px;}
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>🐍 Python Mastery Academy</h1>
+    <p>Complete navigation — every lesson, demo, exercise, project, and quiz</p>
+  </div>
+  <div class="search-box">
+    <input id="search" type="text" placeholder="Search files, lessons, topics..."/>
+    <span id="search-count"></span>
+  </div>
+</header>
+
+<nav>
+  <a href="index.html">🏠 Home</a>
+  <a href="progress-dashboard.html">📊 Progress</a>
+  <a href="roadmap-visualizer.html">🗺️ Roadmap</a>
+  <a href="project-gallery.html">💼 Projects</a>
+  <a href="../README.md">📄 Academy README</a>
+  <a href="../learning-roadmap/roadmap.md">🗺️ Learning Roadmap</a>
+  <a href="../learning-roadmap/progress-tracker.md">✅ Progress Tracker</a>
+  <button class="expand-all" onclick="toggleAll()">Expand All</button>
+</nav>
+
+<div class="stats">
+  <div class="stat"><strong>21</strong> Phases</div>
+  <div class="stat"><strong>76</strong> Markdown Files</div>
+  <div class="stat"><strong>28</strong> Python Files</div>
+  <div class="stat"><strong>~200h</strong> Learning Content</div>
+  <div class="stat" style="margin-left:auto;color:var(--muted);font-size:0.75rem;">
+    💡 Tip: Click any phase header to expand. Use search to find anything instantly.
+  </div>
+</div>
+
+<div class="legend">
+  <div class="leg"><div class="dot" style="background:#1a4731"></div> README</div>
+  <div class="leg"><div class="dot" style="background:var(--blue)"></div> Lesson</div>
+  <div class="leg"><div class="dot" style="background:var(--green)"></div> Demo (.py)</div>
+  <div class="leg"><div class="dot" style="background:var(--yellow)"></div> Exercise</div>
+  <div class="leg"><div class="dot" style="background:var(--orange)"></div> Solution</div>
+  <div class="leg"><div class="dot" style="background:var(--purple)"></div> Project</div>
+  <div class="leg"><div class="dot" style="background:var(--cyan)"></div> Quiz</div>
+  <div class="leg"><div class="dot" style="background:var(--pink)"></div> Cheat Sheet</div>
+  <div class="leg"><div class="dot" style="background:var(--red)"></div> Debug Challenge</div>
+</div>
+
+<div class="container">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <h3>Resources</h3>
+      <a class="sidebar-link" href="../learning-roadmap/roadmap.md">Roadmap</a>
+      <a class="sidebar-link" href="../learning-roadmap/progress-tracker.md">Progress Tracker</a>
+      <a class="sidebar-link" href="../learning-roadmap/skills-matrix.md">Skills Matrix</a>
+      <a class="sidebar-link" href="../learning-roadmap/learning-checklist.md">Checklist</a>
+    </div>
+    <div class="sidebar-section">
+      <h3>Diagrams</h3>
+      <a class="sidebar-link" href="../diagrams/python-architecture.md">Python Architecture</a>
+      <a class="sidebar-link" href="../diagrams/memory-model.md">Memory Model</a>
+      <a class="sidebar-link" href="../diagrams/execution-flow.md">Execution Flow</a>
+      <a class="sidebar-link" href="../diagrams/cpu-memory-storage.md">CPU/Memory/Storage</a>
+    </div>
+    <div class="sidebar-section">
+      <h3>Tools</h3>
+      <a class="sidebar-link" href="../practice-engine/quiz_engine.py">Quiz Engine (.py)</a>
+      <a class="sidebar-link" href="../practice-engine/score_tracker.py">Score Tracker (.py)</a>
+    </div>
+    <div class="sidebar-section">
+      <h3>Portfolio</h3>
+      <a class="sidebar-link" href="../portfolio-projects/README.md">Portfolio Overview</a>
+      <a class="sidebar-link" href="../portfolio-projects/01-sales-analytics-dashboard/README.md">Sales Dashboard</a>
+      <a class="sidebar-link" href="../portfolio-projects/07-rest-api-platform/README.md">REST API Platform</a>
+    </div>
+    <div class="sidebar-section">
+      <h3>Jump to Phase</h3>
+      <a class="sidebar-link" href="#phase-00" onclick="openPhase('phase-00')">00 - Environment</a>
+      <a class="sidebar-link" href="#phase-01" onclick="openPhase('phase-01')">01 - Fundamentals</a>
+      <a class="sidebar-link" href="#phase-02" onclick="openPhase('phase-02')">02 - Control Flow</a>
+      <a class="sidebar-link" href="#phase-03" onclick="openPhase('phase-03')">03 - Collections</a>
+      <a class="sidebar-link" href="#phase-04" onclick="openPhase('phase-04')">04 - Functions</a>
+      <a class="sidebar-link" href="#phase-05" onclick="openPhase('phase-05')">05 - Files</a>
+      <a class="sidebar-link" href="#phase-06" onclick="openPhase('phase-06')">06 - Errors</a>
+      <a class="sidebar-link" href="#phase-07" onclick="openPhase('phase-07')">07 - OOP</a>
+      <a class="sidebar-link" href="#phase-08" onclick="openPhase('phase-08')">08 - Projects</a>
+      <a class="sidebar-link" href="#phase-09" onclick="openPhase('phase-09')">09 - Databases</a>
+      <a class="sidebar-link" href="#phase-10" onclick="openPhase('phase-10')">10 - Scraping</a>
+      <a class="sidebar-link" href="#phase-11" onclick="openPhase('phase-11')">11 - APIs</a>
+      <a class="sidebar-link" href="#phase-12" onclick="openPhase('phase-12')">12 - Automation</a>
+      <a class="sidebar-link" href="#phase-13" onclick="openPhase('phase-13')">13 - Data Analysis</a>
+      <a class="sidebar-link" href="#phase-14" onclick="openPhase('phase-14')">14 - Testing</a>
+      <a class="sidebar-link" href="#phase-15" onclick="openPhase('phase-15')">15 - GUI</a>
+      <a class="sidebar-link" href="#phase-16" onclick="openPhase('phase-16')">16 - Web Dev</a>
+      <a class="sidebar-link" href="#phase-17" onclick="openPhase('phase-17')">17 - Advanced</a>
+      <a class="sidebar-link" href="#phase-18" onclick="openPhase('phase-18')">18 - Business</a>
+      <a class="sidebar-link" href="#phase-19" onclick="openPhase('phase-19')">19 - Engineering</a>
+      <a class="sidebar-link" href="#phase-20" onclick="openPhase('phase-20')">20 - Capstone</a>
+    </div>
+  </aside>
+
+  <!-- ── Main content ── -->
+  <main id="main">
+    <div class="no-results" id="no-results">No files match your search.</div>
+
+    <!-- ════════════════════════════════════════════ -->
+    <!-- PHASE 00 -->
+    <!-- ════════════════════════════════════════════ -->
+    <div class="phase-section open" id="phase-00">
+      <div class="phase-header" onclick="toggle(this)">
+        <span class="phase-toggle">▶</span>
+        <span class="phase-num">Phase 00</span>
+        <span class="phase-title">Environment Setup</span>
+        <div class="phase-meta">
+          <span class="phase-badge b-beginner">Beginner</span>
+          <span class="file-count">15 files</span>
+        </div>
+      </div>
+      <div class="phase-body">
+        <div class="file-group">
+          <div class="group-label" style="color:var(--green)">📋 Overview</div>
+          <div class="files-grid">
+            <a class="file-link" href="../phase-00-environment/README.md"><span class="file-icon">📄</span><span class="file-name">README.md — Phase Overview</span><span class="file-type tag-readme">README</span></a>
+          </div>
+        </div>
+        <div class="file-group">
+          <div class="group-label" style="color:var(--blue)">📚 Lessons</div>
+          <div class="files-grid">
+            <a class="file-link" href="../phase-00-environment/concepts/lesson-01-what-is-programming.md"><span class="file-icon">📖</span><span class="file-name">Lesson 01 — What is Programming & How Software Works</span><span class="file-type tag-lesson">Lesson</span></a>
+            <a class="file-link" href="../phase-00-environment/concepts/lesson-02-installing-python.md"><span class="file-icon">📖</span><span class="file-name">Lesson 02 — Installing Python</span><span class="file-type tag-lesson">Lesson</span></a>
+            <a class="file-link" href="../phase-00-environment/concepts/lesson-03-vscode-setup.md"><span class="file-icon">📖</span><span class="file-name">Lesson 03 — VS Code Setup</span><span class="file-type tag-lesson">Lesson</span></a>
+            <a class="file-link" href="../phase-00-environment/concepts/lesson-04-terminal-mastery.md"><span class="file-icon">📖</span><span class="file-name">Lesson 04 — Terminal Mastery</span><span class="file-type tag-lesson">Lesson</span></a>
+            <a class="file-link" href="../phase-00-environment/concepts/lesson-05-virtual-environments.md"><span class="file-icon">📖</span><span class="file-name">Lesson 05 — Virtual Environments</span><span class="file-type tag-lesson">Lesson</span></a>
+            <a class="file-link" href="../phase-00-environment/concepts/lesson-06-git-fundamentals.md"><span class="file-icon">📖</span><span class="file-name">Lesson 06 — Git Fundamentals</span><span class="file-type tag-lesson">Lesson</span></a>
+          </div>
+        </div>
+        <div class="file-group">
+          <div class="group-label" style="color:var(--green)">🖥️ Demo Files</div>
+          <div class="files-grid">
+            <a class="file-link" href="../phase-00-environment/demos/demo-01-hello-world.py"><span class="file-icon">🐍</span><span class="file-name">demo-01-hello-world.py — print() variations</span><span class="file-type tag-demo">Demo</span></a>
+            <a class="file-link" href="../phase-00-environment/demos/demo-02-first-program.py"><span class="file-icon">🐍</span><span class="file-name">demo-02-first-program.py — First interactive program</span><span class="file-type tag-demo">Demo</span></a>
+            <a class="file-link" href="../phase-00-environment/demos/demo-03-python-features.py"><span class="file-icon">🐍</span><span class="file-name">demo-03-python-features.py — Preview of Python capabilities</span><span class="file-type tag-demo">Demo</span></a>
+          </div>
+        </div>
+        <div class="file-group">
+          <div class="group-label" style="color:var(--yellow)">✏️ Exercises</div>
+          <div class="files-grid">
+            <a class="file-link" href="../phase-00-environment/exercises/beginner/exercises.md"><span class="file-icon">✏️</span><span class="file-name">Beginner Exercises (20 questions)</span><span class="file-type tag-exercise">Exercises</span></a>
+          </div>
+        </div>
+        <div class="file-group">
+          <div class="group-label" style="color:var(--orange)">✅ Solutions</div>
+          <div class="files-grid">
+            <a class="file-link" href="../phase-00-environment/solutions/beginner/solutions.md"><span class="file-icon">✅</span><span class="file-name">Beginner Solutions — Open AFTER attempting</span><span class="file-type tag-solution">Solutions</span></a>
+          </div>
+        </div>
+        <div class="file-group">
+          <div class="group-label" style="color:var(--purple)">🏗️ Guided Project</div>
+          <div class="files-grid">
+            <a class="file-link" href="../phase-00-environment/guided-projects/project-01-first-python-project/README.md"><span class="file-icon">🏗️</span><span class="file-name">Project 01 — First Python Project (venv + git + modules)</span><span class="file-type tag-project">Project</span></a>
+          </div>
+        </div>
+        <div class="file-group">
+          <div class="group-label" style="color:var(--cyan)">📝 Quiz</div>
+          <div class="files-grid">
+            <a class="file-link" href="../phase-00-environment/quizzes/quiz-01.md"><span class="file-icon">📝</span><span class="file-name">Quiz 01 — Environment Setup (15 questions)</span><span class="file-type tag-quiz">Quiz</span></a>
+          </div>
+        </div>
+        <div class="file-group">
+          <div class="group-label" style="color:var(--pink)">⚡ Cheat Sheet</div>
+          <div class="files-grid">
+            <a class="file-link" href="../phase-00-environment/cheat-sheets/environment-cheatsheet.md"><span class="file-icon">⚡</span><span class="file-name">Environment Cheat Sheet — Terminal, Git, pip, venv</span><span class="file-type tag-cheatsheet">Cheat Sheet</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════ -->
+    <!-- PHASE 01 -->
+    <!-- ════════════════════════════════════════════ -->
+    <div class="phase-section" id="phase-01">
+      <div class="phase-header" onclick="toggle(this)">
+        <span class="phase-toggle">▶</span>
+        <span class="phase-num">Phase 01</span>
+        <span class="phase-title">Python Fundamentals</span>
+        <div class="phase-meta">
+          <span class="phase-badge b-beginner">Beginner</span>
+          <span class="file-count">20 files</span>
+        </div>
+      </div>
+      <div class="phase-body">
+        <div class="file-group">
+          <div class="g
