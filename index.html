@@ -1,1011 +1,260 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Python Mastery Academy — Navigation Hub</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Python Mastery Academy — Full-Stack Developer Roadmap</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <script>tailwind.config={darkMode:'class',theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:['Space Grotesk','sans-serif'],mono:['JetBrains Mono','monospace']}}}}</script>
   <style>
-    :root {
-      --bg:#0d1117; --card:#161b22; --border:#30363d;
-      --green:#3fb950; --blue:#58a6ff; --yellow:#d29922;
-      --orange:#f0883e; --red:#f85149; --purple:#bc8cff;
-      --cyan:#39d353; --pink:#f778ba; --text:#c9d1d9; --muted:#8b949e;
-    }
-    *{box-sizing:border-box;margin:0;padding:0;}
-    body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;}
-
-    /* ── Header ── */
-    header{background:linear-gradient(135deg,#1a2332,#0d1117);border-bottom:1px solid var(--border);padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
-    header h1{font-size:1.6rem;color:var(--green);}
-    header p{color:var(--muted);font-size:0.85rem;margin-top:0.2rem;}
-    .search-box{display:flex;gap:0.5rem;align-items:center;}
-    #search{background:var(--card);border:1px solid var(--border);color:var(--text);padding:0.5rem 1rem;border-radius:6px;font-size:0.85rem;width:280px;}
-    #search:focus{outline:none;border-color:var(--blue);}
-    #search-count{color:var(--muted);font-size:0.8rem;white-space:nowrap;}
-
-    /* ── Top nav ── */
-    nav{display:flex;gap:0.5rem;padding:0.8rem 2rem;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:wrap;align-items:center;}
-    nav a{color:var(--blue);text-decoration:none;padding:0.3rem 0.8rem;border:1px solid var(--border);border-radius:6px;font-size:0.8rem;white-space:nowrap;}
-    nav a:hover{background:var(--border);}
-    .expand-all{margin-left:auto;background:var(--border);color:var(--text);border:none;padding:0.3rem 1rem;border-radius:6px;cursor:pointer;font-size:0.8rem;}
-    .expand-all:hover{background:#444;}
-
-    /* ── Legend ── */
-    .legend{display:flex;gap:0.8rem;padding:0.7rem 2rem;background:var(--bg);border-bottom:1px solid var(--border);flex-wrap:wrap;}
-    .leg{display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;color:var(--muted);}
-    .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
-
-    /* ── Main layout ── */
-    .container{max-width:1400px;margin:0 auto;padding:1.5rem 2rem;display:grid;grid-template-columns:220px 1fr;gap:1.5rem;}
-
-    /* ── Sidebar ── */
-    .sidebar{position:sticky;top:1rem;align-self:start;max-height:calc(100vh - 2rem);overflow-y:auto;}
-    .sidebar::-webkit-scrollbar{width:4px;}
-    .sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
-    .sidebar h3{color:var(--muted);font-size:0.7rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:0.5rem;padding:0.3rem 0;}
-    .sidebar-link{display:block;padding:0.35rem 0.8rem;color:var(--muted);text-decoration:none;border-radius:4px;font-size:0.82rem;transition:all 0.15s;border-left:2px solid transparent;margin-bottom:1px;}
-    .sidebar-link:hover,.sidebar-link.active{color:var(--text);background:var(--card);border-left-color:var(--blue);}
-    .sidebar-section{margin-bottom:1.2rem;}
-
-    /* ── Phase sections ── */
-    .phase-section{background:var(--card);border:1px solid var(--border);border-radius:10px;margin-bottom:1rem;overflow:hidden;}
-    .phase-header{display:flex;align-items:center;gap:0.8rem;padding:0.9rem 1.2rem;cursor:pointer;user-select:none;transition:background 0.15s;}
-    .phase-header:hover{background:rgba(88,166,255,0.05);}
-    .phase-toggle{color:var(--muted);font-size:0.9rem;transition:transform 0.2s;flex-shrink:0;}
-    .phase-section.open .phase-toggle{transform:rotate(90deg);}
-    .phase-num{font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;min-width:60px;}
-    .phase-title{font-size:0.95rem;font-weight:600;color:var(--text);flex:1;}
-    .phase-meta{display:flex;gap:0.4rem;align-items:center;flex-shrink:0;}
-    .phase-badge{font-size:0.68rem;padding:0.15rem 0.5rem;border-radius:10px;white-space:nowrap;}
-    .b-beginner{background:#1a4731;color:var(--green);}
-    .b-intermediate{background:#2a2008;color:var(--yellow);}
-    .b-advanced{background:#2a1908;color:var(--orange);}
-    .b-professional{background:#1e1b4b;color:var(--purple);}
-    .b-expert{background:#2a0808;color:var(--red);}
-    .file-count{color:var(--muted);font-size:0.75rem;}
-
-    /* ── Phase body ── */
-    .phase-body{display:none;border-top:1px solid var(--border);}
-    .phase-section.open .phase-body{display:block;}
-
-    /* ── File groups ── */
-    .file-group{padding:0.8rem 1.2rem;border-bottom:1px solid rgba(48,54,61,0.5);}
-    .file-group:last-child{border-bottom:none;}
-    .group-label{font-size:0.7rem;text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-bottom:0.5rem;display:flex;align-items:center;gap:0.4rem;}
-    .files-grid{display:flex;flex-direction:column;gap:0.2rem;}
-
-    /* ── File links ── */
-    .file-link{display:flex;align-items:center;gap:0.5rem;padding:0.3rem 0.6rem;border-radius:5px;text-decoration:none;font-size:0.82rem;transition:background 0.12s;color:var(--text);}
-    .file-link:hover{background:var(--border);}
-    .file-link .file-icon{font-size:0.85rem;flex-shrink:0;width:16px;text-align:center;}
-    .file-link .file-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-    .file-link .file-type{font-size:0.65rem;padding:0.1rem 0.4rem;border-radius:8px;flex-shrink:0;opacity:0.8;}
-
-    /* Tag colors by type */
-    .tag-readme{background:#1a4731;color:var(--green);}
-    .tag-lesson{background:rgba(88,166,255,0.15);color:var(--blue);}
-    .tag-demo{background:rgba(63,185,80,0.15);color:var(--green);}
-    .tag-exercise{background:rgba(210,153,34,0.15);color:var(--yellow);}
-    .tag-solution{background:rgba(240,136,62,0.15);color:var(--orange);}
-    .tag-project{background:rgba(188,140,255,0.15);color:var(--purple);}
-    .tag-quiz{background:rgba(57,211,83,0.15);color:var(--cyan);}
-    .tag-cheatsheet{background:rgba(247,120,186,0.15);color:var(--pink);}
-    .tag-debug{background:rgba(248,81,73,0.15);color:var(--red);}
-    .tag-assessment{background:rgba(248,81,73,0.1);color:var(--red);}
-    .tag-docs{background:rgba(139,148,158,0.15);color:var(--muted);}
-    .tag-py{background:rgba(63,185,80,0.2);color:var(--green);}
-
-    /* ── Non-phase sections ── */
-    .extra-section{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem 1.2rem;margin-bottom:1rem;}
-    .extra-section h3{color:var(--blue);font-size:0.9rem;margin-bottom:0.7rem;padding-bottom:0.4rem;border-bottom:1px solid var(--border);}
-
-    /* ── No results ── */
-    .no-results{text-align:center;padding:3rem;color:var(--muted);display:none;}
-
-    /* ── Stats bar ── */
-    .stats{display:flex;gap:1.5rem;padding:0.7rem 2rem;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:wrap;}
-    .stat{font-size:0.8rem;color:var(--muted);}
-    .stat strong{color:var(--text);}
-
-    /* ── Scrollbar ── */
-    ::-webkit-scrollbar{width:6px;height:6px;}
-    ::-webkit-scrollbar-track{background:var(--bg);}
-    ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
-
-    /* ── Responsive ── */
-    @media(max-width:900px){
-      .container{grid-template-columns:1fr;}
-      .sidebar{display:none;}
-    }
-
-    /* ── Highlight search match ── */
-    .hidden-by-search{display:none!important;}
-    mark{background:rgba(210,153,34,0.35);color:var(--yellow);border-radius:2px;padding:0 2px;}
+    body{background:#07090f}
+    .bg-grid{background-image:radial-gradient(rgba(255,255,255,.055) 1px,transparent 1px);background-size:28px 28px}
+    .phase-card{background:linear-gradient(135deg,#0e1118 0%,#111520 100%);border:1px solid rgba(255,255,255,.07);transition:border-color .25s,transform .25s,box-shadow .25s}
+    .phase-card:hover{border-color:rgba(0,242,254,.35);transform:translateY(-2px);box-shadow:0 12px 40px rgba(0,242,254,.1)}
+    .lesson-link{transition:background .18s,color .18s,padding-left .18s;display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:.45rem .75rem;border-radius:.5rem;font-size:.875rem;color:#94a3b8}
+    .lesson-link:hover{background:rgba(0,242,254,.07);padding-left:1.1rem;color:#00f2fe}
+    .hero-glow{background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(0,242,254,.12) 0%,transparent 70%)}
+    .gradient-title{background:linear-gradient(135deg,#00f2fe 0%,#4facfe 40%,#a78bfa 70%,#00f2fe 100%);background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:gs 5s ease infinite}
+    @keyframes gs{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+    .sticky-header{backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+    .collapse-btn{transition:transform .2s}
+    ::-webkit-scrollbar{width:5px}
+    ::-webkit-scrollbar-track{background:#07090f}
+    ::-webkit-scrollbar-thumb{background:#1e2535;border-radius:4px}
   </style>
 </head>
-<body>
+<body class="bg-grid text-slate-100 font-sans min-h-screen selection:bg-cyan-500/30">
 
-<header>
-  <div>
-    <h1>🐍 Python Mastery Academy</h1>
-    <p>Complete navigation — every lesson, demo, exercise, project, and quiz</p>
-  </div>
-  <div class="search-box">
-    <input id="search" type="text" placeholder="Search files, lessons, topics..."/>
-    <span id="search-count"></span>
-  </div>
-</header>
+  <div class="hero-glow fixed top-0 inset-x-0 h-96 pointer-events-none z-0"></div>
 
-<nav>
-  <a href="index.html">🏠 Home</a>
-  <a href="progress-dashboard.html">📊 Progress</a>
-  <a href="roadmap-visualizer.html">🗺️ Roadmap</a>
-  <a href="project-gallery.html">💼 Projects</a>
-  <a href="../README.md">📄 Academy README</a>
-  <a href="../learning-roadmap/roadmap.md">🗺️ Learning Roadmap</a>
-  <a href="../learning-roadmap/progress-tracker.md">✅ Progress Tracker</a>
-  <button class="expand-all" onclick="toggleAll()">Expand All</button>
-</nav>
-
-<div class="stats">
-  <div class="stat"><strong>21</strong> Phases</div>
-  <div class="stat"><strong>76</strong> Markdown Files</div>
-  <div class="stat"><strong>28</strong> Python Files</div>
-  <div class="stat"><strong>~200h</strong> Learning Content</div>
-  <div class="stat" style="margin-left:auto;color:var(--muted);font-size:0.75rem;">
-    💡 Tip: Click any phase header to expand. Use search to find anything instantly.
-  </div>
-</div>
-
-<div class="legend">
-  <div class="leg"><div class="dot" style="background:#1a4731"></div> README</div>
-  <div class="leg"><div class="dot" style="background:var(--blue)"></div> Lesson</div>
-  <div class="leg"><div class="dot" style="background:var(--green)"></div> Demo (.py)</div>
-  <div class="leg"><div class="dot" style="background:var(--yellow)"></div> Exercise</div>
-  <div class="leg"><div class="dot" style="background:var(--orange)"></div> Solution</div>
-  <div class="leg"><div class="dot" style="background:var(--purple)"></div> Project</div>
-  <div class="leg"><div class="dot" style="background:var(--cyan)"></div> Quiz</div>
-  <div class="leg"><div class="dot" style="background:var(--pink)"></div> Cheat Sheet</div>
-  <div class="leg"><div class="dot" style="background:var(--red)"></div> Debug Challenge</div>
-</div>
-
-<div class="container">
-
-  <!-- ── Sidebar ── -->
-  <aside class="sidebar">
-    <div class="sidebar-section">
-      <h3>Resources</h3>
-      <a class="sidebar-link" href="../learning-roadmap/roadmap.md">Roadmap</a>
-      <a class="sidebar-link" href="../learning-roadmap/progress-tracker.md">Progress Tracker</a>
-      <a class="sidebar-link" href="../learning-roadmap/skills-matrix.md">Skills Matrix</a>
-      <a class="sidebar-link" href="../learning-roadmap/learning-checklist.md">Checklist</a>
-    </div>
-    <div class="sidebar-section">
-      <h3>Diagrams</h3>
-      <a class="sidebar-link" href="../diagrams/python-architecture.md">Python Architecture</a>
-      <a class="sidebar-link" href="../diagrams/memory-model.md">Memory Model</a>
-      <a class="sidebar-link" href="../diagrams/execution-flow.md">Execution Flow</a>
-      <a class="sidebar-link" href="../diagrams/cpu-memory-storage.md">CPU/Memory/Storage</a>
-    </div>
-    <div class="sidebar-section">
-      <h3>Tools</h3>
-      <a class="sidebar-link" href="../practice-engine/quiz_engine.py">Quiz Engine (.py)</a>
-      <a class="sidebar-link" href="../practice-engine/score_tracker.py">Score Tracker (.py)</a>
-    </div>
-    <div class="sidebar-section">
-      <h3>Portfolio</h3>
-      <a class="sidebar-link" href="../portfolio-projects/README.md">Portfolio Overview</a>
-      <a class="sidebar-link" href="../portfolio-projects/01-sales-analytics-dashboard/README.md">Sales Dashboard</a>
-      <a class="sidebar-link" href="../portfolio-projects/07-rest-api-platform/README.md">REST API Platform</a>
-    </div>
-    <div class="sidebar-section">
-      <h3>Jump to Phase</h3>
-      <a class="sidebar-link" href="#phase-00" onclick="openPhase('phase-00')">00 - Environment</a>
-      <a class="sidebar-link" href="#phase-01" onclick="openPhase('phase-01')">01 - Fundamentals</a>
-      <a class="sidebar-link" href="#phase-02" onclick="openPhase('phase-02')">02 - Control Flow</a>
-      <a class="sidebar-link" href="#phase-03" onclick="openPhase('phase-03')">03 - Collections</a>
-      <a class="sidebar-link" href="#phase-04" onclick="openPhase('phase-04')">04 - Functions</a>
-      <a class="sidebar-link" href="#phase-05" onclick="openPhase('phase-05')">05 - Files</a>
-      <a class="sidebar-link" href="#phase-06" onclick="openPhase('phase-06')">06 - Errors</a>
-      <a class="sidebar-link" href="#phase-07" onclick="openPhase('phase-07')">07 - OOP</a>
-      <a class="sidebar-link" href="#phase-08" onclick="openPhase('phase-08')">08 - Projects</a>
-      <a class="sidebar-link" href="#phase-09" onclick="openPhase('phase-09')">09 - Databases</a>
-      <a class="sidebar-link" href="#phase-10" onclick="openPhase('phase-10')">10 - Scraping</a>
-      <a class="sidebar-link" href="#phase-11" onclick="openPhase('phase-11')">11 - APIs</a>
-      <a class="sidebar-link" href="#phase-12" onclick="openPhase('phase-12')">12 - Automation</a>
-      <a class="sidebar-link" href="#phase-13" onclick="openPhase('phase-13')">13 - Data Analysis</a>
-      <a class="sidebar-link" href="#phase-14" onclick="openPhase('phase-14')">14 - Testing</a>
-      <a class="sidebar-link" href="#phase-15" onclick="openPhase('phase-15')">15 - GUI</a>
-      <a class="sidebar-link" href="#phase-16" onclick="openPhase('phase-16')">16 - Web Dev</a>
-      <a class="sidebar-link" href="#phase-17" onclick="openPhase('phase-17')">17 - Advanced</a>
-      <a class="sidebar-link" href="#phase-18" onclick="openPhase('phase-18')">18 - Business</a>
-      <a class="sidebar-link" href="#phase-19" onclick="openPhase('phase-19')">19 - Engineering</a>
-      <a class="sidebar-link" href="#phase-20" onclick="openPhase('phase-20')">20 - Capstone</a>
-    </div>
-  </aside>
-
-  <!-- ── Main content ── -->
-  <main id="main">
-    <div class="no-results" id="no-results">No files match your search.</div>
-
-    <!-- ════════════════════════════════════════════ -->
-    <!-- PHASE 00 -->
-    <!-- ════════════════════════════════════════════ -->
-    <div class="phase-section open" id="phase-00">
-      <div class="phase-header" onclick="toggle(this)">
-        <span class="phase-toggle">▶</span>
-        <span class="phase-num">Phase 00</span>
-        <span class="phase-title">Environment Setup</span>
-        <div class="phase-meta">
-          <span class="phase-badge b-beginner">Beginner</span>
-          <span class="file-count">15 files</span>
-        </div>
+  <!-- Header -->
+  <header class="sticky top-0 z-50 border-b border-white/5 bg-[#07090f]/80 sticky-header">
+    <div class="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-cyan-500 to-violet-600 flex items-center justify-center text-xs font-bold text-white">Py</div>
+        <span class="font-display font-bold text-white text-sm tracking-wide">Python Mastery Academy</span>
+        <span class="hidden sm:block text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 font-mono font-semibold uppercase tracking-wider">Full-Stack Roadmap</span>
       </div>
-      <div class="phase-body">
-        <div class="file-group">
-          <div class="group-label" style="color:var(--green)">📋 Overview</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-00-environment/README.md"><span class="file-icon">📄</span><span class="file-name">README.md — Phase Overview</span><span class="file-type tag-readme">README</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--blue)">📚 Lessons</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-00-environment/concepts/lesson-01-what-is-programming.md"><span class="file-icon">📖</span><span class="file-name">Lesson 01 — What is Programming & How Software Works</span><span class="file-type tag-lesson">Lesson</span></a>
-            <a class="file-link" href="../phase-00-environment/concepts/lesson-02-installing-python.md"><span class="file-icon">📖</span><span class="file-name">Lesson 02 — Installing Python</span><span class="file-type tag-lesson">Lesson</span></a>
-            <a class="file-link" href="../phase-00-environment/concepts/lesson-03-vscode-setup.md"><span class="file-icon">📖</span><span class="file-name">Lesson 03 — VS Code Setup</span><span class="file-type tag-lesson">Lesson</span></a>
-            <a class="file-link" href="../phase-00-environment/concepts/lesson-04-terminal-mastery.md"><span class="file-icon">📖</span><span class="file-name">Lesson 04 — Terminal Mastery</span><span class="file-type tag-lesson">Lesson</span></a>
-            <a class="file-link" href="../phase-00-environment/concepts/lesson-05-virtual-environments.md"><span class="file-icon">📖</span><span class="file-name">Lesson 05 — Virtual Environments</span><span class="file-type tag-lesson">Lesson</span></a>
-            <a class="file-link" href="../phase-00-environment/concepts/lesson-06-git-fundamentals.md"><span class="file-icon">📖</span><span class="file-name">Lesson 06 — Git Fundamentals</span><span class="file-type tag-lesson">Lesson</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--green)">🖥️ Demo Files</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-00-environment/demos/demo-01-hello-world.py"><span class="file-icon">🐍</span><span class="file-name">demo-01-hello-world.py — print() variations</span><span class="file-type tag-demo">Demo</span></a>
-            <a class="file-link" href="../phase-00-environment/demos/demo-02-first-program.py"><span class="file-icon">🐍</span><span class="file-name">demo-02-first-program.py — First interactive program</span><span class="file-type tag-demo">Demo</span></a>
-            <a class="file-link" href="../phase-00-environment/demos/demo-03-python-features.py"><span class="file-icon">🐍</span><span class="file-name">demo-03-python-features.py — Preview of Python capabilities</span><span class="file-type tag-demo">Demo</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--yellow)">✏️ Exercises</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-00-environment/exercises/beginner/exercises.md"><span class="file-icon">✏️</span><span class="file-name">Beginner Exercises (20 questions)</span><span class="file-type tag-exercise">Exercises</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--orange)">✅ Solutions</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-00-environment/solutions/beginner/solutions.md"><span class="file-icon">✅</span><span class="file-name">Beginner Solutions — Open AFTER attempting</span><span class="file-type tag-solution">Solutions</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--purple)">🏗️ Guided Project</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-00-environment/guided-projects/project-01-first-python-project/README.md"><span class="file-icon">🏗️</span><span class="file-name">Project 01 — First Python Project (venv + git + modules)</span><span class="file-type tag-project">Project</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--cyan)">📝 Quiz</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-00-environment/quizzes/quiz-01.md"><span class="file-icon">📝</span><span class="file-name">Quiz 01 — Environment Setup (15 questions)</span><span class="file-type tag-quiz">Quiz</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--pink)">⚡ Cheat Sheet</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-00-environment/cheat-sheets/environment-cheatsheet.md"><span class="file-icon">⚡</span><span class="file-name">Environment Cheat Sheet — Terminal, Git, pip, venv</span><span class="file-type tag-cheatsheet">Cheat Sheet</span></a>
-          </div>
-        </div>
+      <div class="flex items-center gap-3 text-xs font-mono">
+        <a href="lesson.html?path=Python-Mastery-Academy/README.md" class="text-slate-400 hover:text-cyan-400 transition">About</a>
+        <a href="lesson.html?path=Python-Mastery-Academy/learning-roadmap/roadmap.md" class="hidden sm:block px-3 py-1.5 rounded-lg bg-cyan-500/10 border border-cyan-500/25 text-cyan-400 hover:bg-cyan-500/20 transition">Roadmap ↗</a>
       </div>
     </div>
+  </header>
 
-    <!-- ════════════════════════════════════════════ -->
-    <!-- PHASE 01 -->
-    <!-- ════════════════════════════════════════════ -->
-    <div class="phase-section" id="phase-01">
-      <div class="phase-header" onclick="toggle(this)">
-        <span class="phase-toggle">▶</span>
-        <span class="phase-num">Phase 01</span>
-        <span class="phase-title">Python Fundamentals</span>
-        <div class="phase-meta">
-          <span class="phase-badge b-beginner">Beginner</span>
-          <span class="file-count">20 files</span>
-        </div>
+  <main class="relative z-10 max-w-6xl mx-auto px-4 pb-20">
+
+    <!-- Hero -->
+    <section class="pt-14 pb-10 text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-xs font-mono font-semibold mb-5">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        LIVE LEARNING PLATFORM &bull; 21 PHASES
       </div>
-      <div class="phase-body">
-        <div class="file-group">
-          <div class="group-label" style="color:var(--green)">📋 Overview</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-01-fundamentals/README.md"><span class="file-icon">📄</span><span class="file-name">README.md — Phase Overview</span><span class="file-type tag-readme">README</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--blue)">📚 Lessons (8 lessons)</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-01-fundamentals/concepts/lesson-01-hello-world.md"><span class="file-icon">📖</span><span class="file-name">Lesson 01 — Hello World & print()</span><span class="file-type tag-lesson">Lesson</span></a>
-            <a class="file-link" href="../phase-01-fundamentals/concepts/lesson-02-variables.md"><span class="file-icon">📖</span><span class="file-name">Lesson 02 — Variables</span><span class="file-type tag-lesson">Lesson</span></a>
-            <a class="file-link" href="../phase-01-fundamentals/concepts/lesson-03-data-types.md"><span class="file-icon">📖</span><span class="file-name">Lesson 03 — Data Types (int, float, str, bool)</span><span class="file-type tag-lesson">Lesson</span></a>
-            <a class="file-link" href="../phase-01-fundamentals/concepts/lesson-04-input-output.md"><span class="file-icon">📖</span><span class="file-name">Lesson 04 — Input & Output</span><span class="file-type tag-lesson">Lesson</span></a>
-            <a class="file-link" href="../phase-01-fundamentals/concepts/lesson-05-operators.md"><span class="file-icon">📖</span><span class="file-name">Lesson 05 — Operators (arithmetic, comparison, logical)</span><span class="file-type tag-lesson">Lesson</span></a>
-            <a class="file-link" href="../phase-01-fundamentals/concepts/lesson-06-strings.md"><span class="file-icon">📖</span><span class="file-name">Lesson 06 — Strings & String Methods</span><span class="file-type tag-lesson">Lesson</span></a>
-            <a class="file-link" href="../phase-01-fundamentals/concepts/lesson-07-numbers.md"><span class="file-icon">📖</span><span class="file-name">Lesson 07 — Numbers & math Module</span><span class="file-type tag-lesson">Lesson</span></a>
-            <a class="file-link" href="../phase-01-fundamentals/concepts/lesson-08-boolean-logic.md"><span class="file-icon">📖</span><span class="file-name">Lesson 08 — Boolean Logic</span><span class="file-type tag-lesson">Lesson</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--green)">🖥️ Demo Files</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-01-fundamentals/demos/demo-01-hello-world.py"><span class="file-icon">🐍</span><span class="file-name">demo-01-hello-world.py — print() variations</span><span class="file-type tag-demo">Demo</span></a>
-            <a class="file-link" href="../phase-01-fundamentals/demos/demo-02-variables.py"><span class="file-icon">🐍</span><span class="file-name">demo-02-variables.py — Variable operations</span><span class="file-type tag-demo">Demo</span></a>
-            <a class="file-link" href="../phase-01-fundamentals/demos/demo-06-strings.py"><span class="file-icon">🐍</span><span class="file-name">demo-06-strings.py — String methods & formatting</span><span class="file-type tag-demo">Demo</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--yellow)">✏️ Exercises</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-01-fundamentals/exercises/beginner/exercises.md"><span class="file-icon">✏️</span><span class="file-name">Beginner Exercises (20 questions — variables, types, strings)</span><span class="file-type tag-exercise">Exercises</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--red)">🐛 Debugging Challenge</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-01-fundamentals/debugging-challenges/challenge-01.py"><span class="file-icon">🐛</span><span class="file-name">challenge-01.py — Find & fix 8 bugs</span><span class="file-type tag-debug">Debug</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--purple)">🏗️ Guided Projects (5 projects)</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-01-fundamentals/guided-projects/project-01-greeting-app/main.py"><span class="file-icon">🏗️</span><span class="file-name">Project 01 — Greeting App</span><span class="file-type tag-project">Project</span></a>
-            <a class="file-link" href="../phase-01-fundamentals/guided-projects/project-02-employee-profile/main.py"><span class="file-icon">🏗️</span><span class="file-name">Project 02 — Employee Profile System</span><span class="file-type tag-project">Project</span></a>
-            <a class="file-link" href="../phase-01-fundamentals/guided-projects/project-03-expense-tracker/main.py"><span class="file-icon">🏗️</span><span class="file-name">Project 03 — Expense Tracker</span><span class="file-type tag-project">Project</span></a>
-            <a class="file-link" href="../phase-01-fundamentals/guided-projects/project-04-calculator/main.py"><span class="file-icon">🏗️</span><span class="file-name">Project 04 — Calculator</span><span class="file-type tag-project">Project</span></a>
-            <a class="file-link" href="../phase-01-fundamentals/guided-projects/project-05-username-generator/main.py"><span class="file-icon">🏗️</span><span class="file-name">Project 05 — Username Generator</span><span class="file-type tag-project">Project</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--pink)">⚡ Cheat Sheet</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-01-fundamentals/cheat-sheets/fundamentals-cheatsheet.md"><span class="file-icon">⚡</span><span class="file-name">Fundamentals Cheat Sheet — All basics in one page</span><span class="file-type tag-cheatsheet">Cheat Sheet</span></a>
-          </div>
-        </div>
+      <h1 class="font-display font-extrabold text-4xl sm:text-5xl md:text-6xl text-white mb-4 leading-tight">
+        Master Python<br><span class="gradient-title">From Zero to Pro</span>
+      </h1>
+      <p class="text-slate-400 max-w-xl mx-auto text-base leading-relaxed mb-8">
+        A structured, project-driven curriculum covering everything from your first line of code to building production-ready applications.
+      </p>
+      <div class="flex flex-wrap items-center justify-center gap-4 text-sm">
+        <div class="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/8"><span class="text-cyan-400 font-bold text-lg">31+</span><span class="text-slate-400">Lessons</span></div>
+        <div class="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/8"><span class="text-violet-400 font-bold text-lg">21</span><span class="text-slate-400">Phases</span></div>
+        <div class="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/8"><span class="text-emerald-400 font-bold text-lg">&#8734;</span><span class="text-slate-400">Practice Exercises</span></div>
+        <div class="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/8"><span class="text-amber-400 font-bold text-lg">7</span><span class="text-slate-400">Portfolio Projects</span></div>
       </div>
+    </section>
+
+    <!-- Quick Links -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-10">
+      <a href="lesson.html?path=Python-Mastery-Academy/learning-roadmap/roadmap.md" class="phase-card rounded-xl p-4 flex flex-col gap-2">
+        <div class="text-2xl">&#128506;&#65039;</div><div class="font-semibold text-sm text-white">Roadmap</div><div class="text-xs text-slate-500">Full learning path</div>
+      </a>
+      <a href="lesson.html?path=Python-Mastery-Academy/learning-roadmap/learning-checklist.md" class="phase-card rounded-xl p-4 flex flex-col gap-2">
+        <div class="text-2xl">&#9989;</div><div class="font-semibold text-sm text-white">Checklist</div><div class="text-xs text-slate-500">Track your progress</div>
+      </a>
+      <a href="lesson.html?path=Python-Mastery-Academy/learning-roadmap/skills-matrix.md" class="phase-card rounded-xl p-4 flex flex-col gap-2">
+        <div class="text-2xl">&#129504;</div><div class="font-semibold text-sm text-white">Skills Matrix</div><div class="text-xs text-slate-500">What you'll master</div>
+      </a>
+      <a href="lesson.html?path=Python-Mastery-Academy/portfolio-projects/README.md" class="phase-card rounded-xl p-4 flex flex-col gap-2">
+        <div class="text-2xl">&#127959;&#65039;</div><div class="font-semibold text-sm text-white">Projects</div><div class="text-xs text-slate-500">Portfolio builders</div>
+      </a>
     </div>
 
-    <!-- ════════════════════════════════════════════ -->
-    <!-- PHASE 02 -->
-    <!-- ════════════════════════════════════════════ -->
-    <div class="phase-section" id="phase-02">
-      <div class="phase-header" onclick="toggle(this)">
-        <span class="phase-toggle">▶</span>
-        <span class="phase-num">Phase 02</span>
-        <span class="phase-title">Control Flow</span>
-        <div class="phase-meta">
-          <span class="phase-badge b-beginner">Beginner</span>
-          <span class="file-count">7 files</span>
-        </div>
-      </div>
-      <div class="phase-body">
-        <div class="file-group">
-          <div class="group-label" style="color:var(--green)">📋 Overview</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-02-control-flow/README.md"><span class="file-icon">📄</span><span class="file-name">README.md</span><span class="file-type tag-readme">README</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--blue)">📚 Lessons</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-02-control-flow/concepts/lesson-01-if-elif-else.md"><span class="file-icon">📖</span><span class="file-name">Lesson 01 — If / Elif / Else</span><span class="file-type tag-lesson">Lesson</span></a>
-            <a class="file-link" href="../phase-02-control-flow/concepts/lesson-03-while-loops.md"><span class="file-icon">📖</span><span class="file-name">Lesson 03 — While Loops</span><span class="file-type tag-lesson">Lesson</span></a>
-            <a class="file-link" href="../phase-02-control-flow/concepts/lesson-04-for-loops.md"><span class="file-icon">📖</span><span class="file-name">Lesson 04 — For Loops & range()</span><span class="file-type tag-lesson">Lesson</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--green)">🖥️ Demo Files</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-02-control-flow/demos/demo-01-conditions.py"><span class="file-icon">🐍</span><span class="file-name">demo-01-conditions.py — if/elif/else patterns</span><span class="file-type tag-demo">Demo</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--yellow)">✏️ Exercises</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-02-control-flow/exercises/beginner/exercises.md"><span class="file-icon">✏️</span><span class="file-name">Beginner Exercises (20 questions)</span><span class="file-type tag-exercise">Exercises</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--purple)">🏗️ Guided Projects</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-02-control-flow/guided-projects/project-02-atm-menu/main.py"><span class="file-icon">🏗️</span><span class="file-name">Project 02 — ATM Menu System</span><span class="file-type tag-project">Project</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ════════════════════════════════════════════ -->
-    <!-- PHASE 03 -->
-    <!-- ════════════════════════════════════════════ -->
-    <div class="phase-section" id="phase-03">
-      <div class="phase-header" onclick="toggle(this)">
-        <span class="phase-toggle">▶</span>
-        <span class="phase-num">Phase 03</span>
-        <span class="phase-title">Collections</span>
-        <div class="phase-meta">
-          <span class="phase-badge b-beginner">Beginner</span>
-          <span class="file-count">6 files</span>
-        </div>
-      </div>
-      <div class="phase-body">
-        <div class="file-group">
-          <div class="group-label" style="color:var(--green)">📋 Overview</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-03-collections/README.md"><span class="file-icon">📄</span><span class="file-name">README.md</span><span class="file-type tag-readme">README</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--blue)">📚 Lessons</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-03-collections/concepts/lesson-01-lists.md"><span class="file-icon">📖</span><span class="file-name">Lesson 01 — Lists</span><span class="file-type tag-lesson">Lesson</span></a>
-            <a class="file-link" href="../phase-03-collections/concepts/lesson-04-dictionaries.md"><span class="file-icon">📖</span><span class="file-name">Lesson 04 — Dictionaries</span><span class="file-type tag-lesson">Lesson</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--green)">🖥️ Demo Files</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-03-collections/demos/demo-01-lists.py"><span class="file-icon">🐍</span><span class="file-name">demo-01-lists.py — List operations</span><span class="file-type tag-demo">Demo</span></a>
-            <a class="file-link" href="../phase-03-collections/demos/demo-02-dictionaries.py"><span class="file-icon">🐍</span><span class="file-name">demo-02-dictionaries.py — Dictionary operations</span><span class="file-type tag-demo">Demo</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--yellow)">✏️ Exercises</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-03-collections/exercises/beginner/exercises.md"><span class="file-icon">✏️</span><span class="file-name">Beginner Exercises (20 questions — lists, tuples, sets, dicts)</span><span class="file-type tag-exercise">Exercises</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ════════════════════════════════════════════ -->
-    <!-- PHASE 04 -->
-    <!-- ════════════════════════════════════════════ -->
-    <div class="phase-section" id="phase-04">
-      <div class="phase-header" onclick="toggle(this)">
-        <span class="phase-toggle">▶</span>
-        <span class="phase-num">Phase 04</span>
-        <span class="phase-title">Functions</span>
-        <div class="phase-meta">
-          <span class="phase-badge b-intermediate">Intermediate</span>
-          <span class="file-count">5 files</span>
-        </div>
-      </div>
-      <div class="phase-body">
-        <div class="file-group">
-          <div class="group-label" style="color:var(--green)">📋 Overview</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-04-functions/README.md"><span class="file-icon">📄</span><span class="file-name">README.md</span><span class="file-type tag-readme">README</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--blue)">📚 Lessons</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-04-functions/concepts/lesson-01-basics.md"><span class="file-icon">📖</span><span class="file-name">Lesson 01 — Function Basics, Type Hints, Docstrings</span><span class="file-type tag-lesson">Lesson</span></a>
-            <a class="file-link" href="../phase-04-functions/concepts/lesson-04-args-kwargs.md"><span class="file-icon">📖</span><span class="file-name">Lesson 04 — *args and **kwargs</span><span class="file-type tag-lesson">Lesson</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--green)">🖥️ Demo Files</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-04-functions/demos/demo-01-functions.py"><span class="file-icon">🐍</span><span class="file-name">demo-01-functions.py — All function patterns</span><span class="file-type tag-demo">Demo</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--purple)">🏗️ Guided Projects</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-04-functions/guided-projects/project-01-calculator-engine/main.py"><span class="file-icon">🏗️</span><span class="file-name">Project 01 — Calculator Engine (all ops as functions)</span><span class="file-type tag-project">Project</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ════════════════════════════════════════════ -->
-    <!-- PHASE 05 -->
-    <!-- ════════════════════════════════════════════ -->
-    <div class="phase-section" id="phase-05">
-      <div class="phase-header" onclick="toggle(this)">
-        <span class="phase-toggle">▶</span>
-        <span class="phase-num">Phase 05</span>
-        <span class="phase-title">File Handling</span>
-        <div class="phase-meta">
-          <span class="phase-badge b-intermediate">Intermediate</span>
-          <span class="file-count">4 files</span>
-        </div>
-      </div>
-      <div class="phase-body">
-        <div class="file-group">
-          <div class="group-label" style="color:var(--green)">📋 Overview</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-05-file-handling/README.md"><span class="file-icon">📄</span><span class="file-name">README.md</span><span class="file-type tag-readme">README</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--blue)">📚 Lessons</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-05-file-handling/concepts/lesson-01-text-files.md"><span class="file-icon">📖</span><span class="file-name">Lesson 01 — Reading & Writing Text Files</span><span class="file-type tag-lesson">Lesson</span></a>
-            <a class="file-link" href="../phase-05-file-handling/concepts/lesson-02-csv.md"><span class="file-icon">📖</span><span class="file-name">Lesson 02 — CSV Files</span><span class="file-type tag-lesson">Lesson</span></a>
-            <a class="file-link" href="../phase-05-file-handling/concepts/lesson-03-json.md"><span class="file-icon">📖</span><span class="file-name">Lesson 03 — JSON Files</span><span class="file-type tag-lesson">Lesson</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ════════════════════════════════════════════ -->
-    <!-- PHASE 06 -->
-    <!-- ════════════════════════════════════════════ -->
-    <div class="phase-section" id="phase-06">
-      <div class="phase-header" onclick="toggle(this)">
-        <span class="phase-toggle">▶</span>
-        <span class="phase-num">Phase 06</span>
-        <span class="phase-title">Error Handling</span>
-        <div class="phase-meta">
-          <span class="phase-badge b-intermediate">Intermediate</span>
-          <span class="file-count">3 files</span>
-        </div>
-      </div>
-      <div class="phase-body">
-        <div class="file-group">
-          <div class="group-label" style="color:var(--green)">📋 Overview</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-06-error-handling/README.md"><span class="file-icon">📄</span><span class="file-name">README.md</span><span class="file-type tag-readme">README</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--blue)">📚 Lessons</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-06-error-handling/concepts/lesson-01-try-except.md"><span class="file-icon">📖</span><span class="file-name">Lesson 01 — try / except / else / finally</span><span class="file-type tag-lesson">Lesson</span></a>
-            <a class="file-link" href="../phase-06-error-handling/concepts/lesson-04-raise.md"><span class="file-icon">📖</span><span class="file-name">Lesson 04 — raise & Custom Exceptions</span><span class="file-type tag-lesson">Lesson</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ════════════════════════════════════════════ -->
-    <!-- PHASE 07 -->
-    <!-- ════════════════════════════════════════════ -->
-    <div class="phase-section" id="phase-07">
-      <div class="phase-header" onclick="toggle(this)">
-        <span class="phase-toggle">▶</span>
-        <span class="phase-num">Phase 07</span>
-        <span class="phase-title">Object-Oriented Programming</span>
-        <div class="phase-meta">
-          <span class="phase-badge b-intermediate">Intermediate</span>
-          <span class="file-count">5 files</span>
-        </div>
-      </div>
-      <div class="phase-body">
-        <div class="file-group">
-          <div class="group-label" style="color:var(--green)">📋 Overview</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-07-oop/README.md"><span class="file-icon">📄</span><span class="file-name">README.md</span><span class="file-type tag-readme">README</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--blue)">📚 Lessons</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-07-oop/concepts/lesson-01-classes.md"><span class="file-icon">📖</span><span class="file-name">Lesson 01 — Classes & Objects</span><span class="file-type tag-lesson">Lesson</span></a>
-            <a class="file-link" href="../phase-07-oop/concepts/lesson-03-inheritance.md"><span class="file-icon">📖</span><span class="file-name">Lesson 03 — Inheritance & super()</span><span class="file-type tag-lesson">Lesson</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--purple)">🏗️ Guided Projects</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-07-oop/guided-projects/project-03-banking-system/main.py"><span class="file-icon">🏗️</span><span class="file-name">Project 03 — Banking System (OOP — abstract classes, inheritance)</span><span class="file-type tag-project">Project</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--pink)">⚡ Cheat Sheet</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-07-oop/cheat-sheets/oop-cheatsheet.md"><span class="file-icon">⚡</span><span class="file-name">OOP Cheat Sheet — Classes, inheritance, dunder methods</span><span class="file-type tag-cheatsheet">Cheat Sheet</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ════════════════════════════════════════════ -->
-    <!-- PHASE 08 -->
-    <!-- ════════════════════════════════════════════ -->
-    <div class="phase-section" id="phase-08">
-      <div class="phase-header" onclick="toggle(this)">
-        <span class="phase-toggle">▶</span>
-        <span class="phase-num">Phase 08</span>
-        <span class="phase-title">Intermediate Projects</span>
-        <div class="phase-meta">
-          <span class="phase-badge b-intermediate">Intermediate</span>
-          <span class="file-count">2 files</span>
-        </div>
-      </div>
-      <div class="phase-body">
-        <div class="file-group">
-          <div class="group-label" style="color:var(--green)">📋 Overview</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-08-intermediate-projects/README.md"><span class="file-icon">📄</span><span class="file-name">README.md — 7 project descriptions</span><span class="file-type tag-readme">README</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--purple)">🏗️ Projects</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-08-intermediate-projects/projects/todo-app/main.py"><span class="file-icon">🏗️</span><span class="file-name">To-Do App — OOP, JSON persistence, priorities</span><span class="file-type tag-project">Project</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ════════════════════════════════════════════ -->
-    <!-- PHASE 09 -->
-    <!-- ════════════════════════════════════════════ -->
-    <div class="phase-section" id="phase-09">
-      <div class="phase-header" onclick="toggle(this)">
-        <span class="phase-toggle">▶</span>
-        <span class="phase-num">Phase 09</span>
-        <span class="phase-title">Databases</span>
-        <div class="phase-meta">
-          <span class="phase-badge b-advanced">Advanced</span>
-          <span class="file-count">3 files</span>
-        </div>
-      </div>
-      <div class="phase-body">
-        <div class="file-group">
-          <div class="group-label" style="color:var(--green)">📋 Overview</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-09-databases/README.md"><span class="file-icon">📄</span><span class="file-name">README.md — SQL reference & setup</span><span class="file-type tag-readme">README</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--blue)">📚 Lessons</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-09-databases/concepts/lesson-02-sqlite.md"><span class="file-icon">📖</span><span class="file-name">Lesson 02 — SQLite with Python (CRUD + parameterized queries)</span><span class="file-type tag-lesson">Lesson</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--purple)">🏗️ Guided Projects</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-09-databases/guided-projects/project-01-student-app/main.py"><span class="file-icon">🏗️</span><span class="file-name">Project 01 — Student Database App (full CRUD + analytics)</span><span class="file-type tag-project">Project</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Phases 10–16 condensed -->
-    <div class="phase-section" id="phase-10">
-      <div class="phase-header" onclick="toggle(this)">
-        <span class="phase-toggle">▶</span><span class="phase-num">Phase 10</span>
-        <span class="phase-title">Web Scraping</span>
-        <div class="phase-meta"><span class="phase-badge b-advanced">Advanced</span><span class="file-count">1 file</span></div>
-      </div>
-      <div class="phase-body">
-        <div class="file-group"><div class="files-grid">
-          <a class="file-link" href="../phase-10-web-scraping/README.md"><span class="file-icon">📄</span><span class="file-name">README.md — requests + BeautifulSoup guide</span><span class="file-type tag-readme">README</span></a>
-        </div></div>
-      </div>
-    </div>
-
-    <div class="phase-section" id="phase-11">
-      <div class="phase-header" onclick="toggle(this)">
-        <span class="phase-toggle">▶</span><span class="phase-num">Phase 11</span>
-        <span class="phase-title">APIs</span>
-        <div class="phase-meta"><span class="phase-badge b-advanced">Advanced</span><span class="file-count">2 files</span></div>
-      </div>
-      <div class="phase-body">
-        <div class="file-group"><div class="files-grid">
-          <a class="file-link" href="../phase-11-apis/README.md"><span class="file-icon">📄</span><span class="file-name">README.md — REST API fundamentals</span><span class="file-type tag-readme">README</span></a>
-          <a class="file-link" href="../phase-11-apis/guided-projects/project-01-weather-dashboard/main.py"><span class="file-icon">🏗️</span><span class="file-name">Project 01 — Weather Dashboard (OpenWeatherMap API)</span><span class="file-type tag-project">Project</span></a>
-        </div></div>
-      </div>
-    </div>
-
-    <div class="phase-section" id="phase-12">
-      <div class="phase-header" onclick="toggle(this)">
-        <span class="phase-toggle">▶</span><span class="phase-num">Phase 12</span>
-        <span class="phase-title">Automation</span>
-        <div class="phase-meta"><span class="phase-badge b-advanced">Advanced</span><span class="file-count">1 file</span></div>
-      </div>
-      <div class="phase-body">
-        <div class="file-group"><div class="files-grid">
-          <a class="file-link" href="../phase-12-automation/README.md"><span class="file-icon">📄</span><span class="file-name">README.md — Excel, file system, email automation</span><span class="file-type tag-readme">README</span></a>
-        </div></div>
-      </div>
-    </div>
-
-    <div class="phase-section" id="phase-13">
-      <div class="phase-header" onclick="toggle(this)">
-        <span class="phase-toggle">▶</span><span class="phase-num">Phase 13</span>
-        <span class="phase-title">Data Analysis</span>
-        <div class="phase-meta"><span class="phase-badge b-advanced">Advanced</span><span class="file-count">2 files</span></div>
-      </div>
-      <div class="phase-body">
-        <div class="file-group"><div class="files-grid">
-          <a class="file-link" href="../phase-13-data-analysis/README.md"><span class="file-icon">📄</span><span class="file-name">README.md — NumPy, Pandas, Matplotlib guide</span><span class="file-type tag-readme">README</span></a>
-          <a class="file-link" href="../phase-13-data-analysis/guided-projects/project-01-sales-dashboard/main.py"><span class="file-icon">🏗️</span><span class="file-name">Project 01 — Sales Analytics Dashboard (Pandas + charts)</span><span class="file-type tag-project">Project</span></a>
-        </div></div>
-      </div>
-    </div>
-
-    <div class="phase-section" id="phase-14">
-      <div class="phase-header" onclick="toggle(this)">
-        <span class="phase-toggle">▶</span><span class="phase-num">Phase 14</span>
-        <span class="phase-title">Testing</span>
-        <div class="phase-meta"><span class="phase-badge b-advanced">Advanced</span><span class="file-count">2 files</span></div>
-      </div>
-      <div class="phase-body">
-        <div class="file-group"><div class="files-grid">
-          <a class="file-link" href="../phase-14-testing/README.md"><span class="file-icon">📄</span><span class="file-name">README.md — pytest fundamentals</span><span class="file-type tag-readme">README</span></a>
-          <a class="file-link" href="../phase-14-testing/guided-projects/project-01-calculator-tests/test_calculator.py"><span class="file-icon">🧪</span><span class="file-name">test_calculator.py — Full pytest test suite (fixtures, parametrize)</span><span class="file-type tag-project">Project</span></a>
-        </div></div>
-      </div>
-    </div>
-
-    <div class="phase-section" id="phase-15">
-      <div class="phase-header" onclick="toggle(this)">
-        <span class="phase-toggle">▶</span><span class="phase-num">Phase 15</span>
-        <span class="phase-title">GUI Applications</span>
-        <div class="phase-meta"><span class="phase-badge b-professional">Professional</span><span class="file-count">1 file</span></div>
-      </div>
-      <div class="phase-body">
-        <div class="file-group"><div class="files-grid">
-          <a class="file-link" href="../phase-15-gui/README.md"><span class="file-icon">📄</span><span class="file-name">README.md — Tkinter guide</span><span class="file-type tag-readme">README</span></a>
-        </div></div>
-      </div>
-    </div>
-
-    <div class="phase-section" id="phase-16">
-      <div class="phase-header" onclick="toggle(this)">
-        <span class="phase-toggle">▶</span><span class="phase-num">Phase 16</span>
-        <span class="phase-title">Web Development</span>
-        <div class="phase-meta"><span class="phase-badge b-professional">Professional</span><span class="file-count">1 file</span></div>
-      </div>
-      <div class="phase-body">
-        <div class="file-group"><div class="files-grid">
-          <a class="file-link" href="../phase-16-web-development/README.md"><span class="file-icon">📄</span><span class="file-name">README.md — Flask + FastAPI guide with code samples</span><span class="file-type tag-readme">README</span></a>
-        </div></div>
-      </div>
-    </div>
-
-    <!-- ════════════════════════════════════════════ -->
-    <!-- PHASE 17 -->
-    <!-- ════════════════════════════════════════════ -->
-    <div class="phase-section" id="phase-17">
-      <div class="phase-header" onclick="toggle(this)">
-        <span class="phase-toggle">▶</span>
-        <span class="phase-num">Phase 17</span>
-        <span class="phase-title">Advanced Python</span>
-        <div class="phase-meta">
-          <span class="phase-badge b-professional">Professional</span>
-          <span class="file-count">3 files</span>
-        </div>
-      </div>
-      <div class="phase-body">
-        <div class="file-group">
-          <div class="group-label" style="color:var(--green)">📋 Overview</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-17-advanced-python/README.md"><span class="file-icon">📄</span><span class="file-name">README.md</span><span class="file-type tag-readme">README</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--blue)">📚 Lessons</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-17-advanced-python/concepts/lesson-01-decorators.md"><span class="file-icon">📖</span><span class="file-name">Lesson 01 — Decorators (timer, logger, retry, validate)</span><span class="file-type tag-lesson">Lesson</span></a>
-            <a class="file-link" href="../phase-17-advanced-python/concepts/lesson-02-generators.md"><span class="file-icon">📖</span><span class="file-name">Lesson 02 — Generators & yield</span><span class="file-type tag-lesson">Lesson</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ════════════════════════════════════════════ -->
-    <!-- PHASE 18 -->
-    <!-- ════════════════════════════════════════════ -->
-    <div class="phase-section" id="phase-18">
-      <div class="phase-header" onclick="toggle(this)">
-        <span class="phase-toggle">▶</span>
-        <span class="phase-num">Phase 18</span>
-        <span class="phase-title">Business Projects</span>
-        <div class="phase-meta">
-          <span class="phase-badge b-professional">Professional</span>
-          <span class="file-count">3 files</span>
-        </div>
-      </div>
-      <div class="phase-body">
-        <div class="file-group">
-          <div class="group-label" style="color:var(--green)">📋 Overview</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-18-business-projects/README.md"><span class="file-icon">📄</span><span class="file-name">README.md — 5 enterprise project specs</span><span class="file-type tag-readme">README</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--purple)">🏗️ Employee Management System</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-18-business-projects/employee-management-system/docs/requirements.md"><span class="file-icon">📋</span><span class="file-name">requirements.md — Business requirements & data model</span><span class="file-type tag-docs">Docs</span></a>
-            <a class="file-link" href="../phase-18-business-projects/employee-management-system/src/main.py"><span class="file-icon">🏗️</span><span class="file-name">main.py — Full EMS app (SQLite, OOP, logging, reports)</span><span class="file-type tag-project">Project</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ════════════════════════════════════════════ -->
-    <!-- PHASE 19 -->
-    <!-- ════════════════════════════════════════════ -->
-    <div class="phase-section" id="phase-19">
-      <div class="phase-header" onclick="toggle(this)">
-        <span class="phase-toggle">▶</span>
-        <span class="phase-num">Phase 19</span>
-        <span class="phase-title">Software Engineering</span>
-        <div class="phase-meta">
-          <span class="phase-badge b-expert">Expert</span>
-          <span class="file-count">1 file</span>
-        </div>
-      </div>
-      <div class="phase-body">
-        <div class="file-group"><div class="files-grid">
-          <a class="file-link" href="../phase-19-software-engineering/README.md"><span class="file-icon">📄</span><span class="file-name">README.md — SOLID, Design Patterns, Clean Code, Logging, CI/CD</span><span class="file-type tag-readme">README</span></a>
-        </div></div>
-      </div>
-    </div>
-
-    <!-- ════════════════════════════════════════════ -->
-    <!-- PHASE 20 -->
-    <!-- ════════════════════════════════════════════ -->
-    <div class="phase-section" id="phase-20">
-      <div class="phase-header" onclick="toggle(this)">
-        <span class="phase-toggle">▶</span>
-        <span class="phase-num">Phase 20</span>
-        <span class="phase-title">Capstone Project</span>
-        <div class="phase-meta">
-          <span class="phase-badge b-expert">Expert</span>
-          <span class="file-count">3 files</span>
-        </div>
-      </div>
-      <div class="phase-body">
-        <div class="file-group">
-          <div class="group-label" style="color:var(--green)">📋 Overview & Docs</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-20-capstone/README.md"><span class="file-icon">📄</span><span class="file-name">README.md — Capstone brief, milestones, structure</span><span class="file-type tag-readme">README</span></a>
-            <a class="file-link" href="../phase-20-capstone/docs/deployment-guide.md"><span class="file-icon">📋</span><span class="file-name">deployment-guide.md — Railway, Render, VPS deployment</span><span class="file-type tag-docs">Docs</span></a>
-          </div>
-        </div>
-        <div class="file-group">
-          <div class="group-label" style="color:var(--purple)">🏗️ TaskFlow Pro API</div>
-          <div class="files-grid">
-            <a class="file-link" href="../phase-20-capstone/src/main.py"><span class="file-icon">🏗️</span><span class="file-name">main.py — FastAPI app (JWT auth, CRUD, analytics, SQLite)</span><span class="file-type tag-project">Project</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ════════════════════════════════════════════ -->
-    <!-- PORTFOLIO PROJECTS -->
-    <!-- ════════════════════════════════════════════ -->
-    <div class="extra-section" id="portfolio">
-      <h3>💼 Portfolio Projects</h3>
-      <div class="files-grid">
-        <a class="file-link" href="../portfolio-projects/README.md"><span class="file-icon">📄</span><span class="file-name">README.md — Portfolio overview & how to use</span><span class="file-type tag-readme">README</span></a>
-        <a class="file-link" href="../portfolio-projects/01-sales-analytics-dashboard/README.md"><span class="file-icon">📊</span><span class="file-name">01 — Sales Analytics Dashboard</span><span class="file-type tag-project">Portfolio</span></a>
-        <a class="file-link" href="../portfolio-projects/07-rest-api-platform/README.md"><span class="file-icon">🔗</span><span class="file-name">07 — REST API Platform</span><span class="file-type tag-project">Portfolio</span></a>
-      </div>
-    </div>
-
-    <!-- ════════════════════════════════════════════ -->
-    <!-- DIAGRAMS & RESOURCES -->
-    <!-- ════════════════════════════════════════════ -->
-    <div class="extra-section" id="resources">
-      <h3>🔷 Visual Diagrams</h3>
-      <div class="files-grid">
-        <a class="file-link" href="../diagrams/python-architecture.md"><span class="file-icon">🔷</span><span class="file-name">python-architecture.md — Lexer, Parser, PVM, GIL</span><span class="file-type tag-docs">Diagram</span></a>
-        <a class="file-link" href="../diagrams/memory-model.md"><span class="file-icon">🔷</span><span class="file-name">memory-model.md — Stack, heap, mutable vs immutable</span><span class="file-type tag-docs">Diagram</span></a>
-        <a class="file-link" href="../diagrams/execution-flow.md"><span class="file-icon">🔷</span><span class="file-name">execution-flow.md — Source code to output</span><span class="file-type tag-docs">Diagram</span></a>
-        <a class="file-link" href="../diagrams/cpu-memory-storage.md"><span class="file-icon">🔷</span><span class="file-name">cpu-memory-storage.md — Hardware components</span><span class="file-type tag-docs">Diagram</span></a>
-      </div>
-    </div>
-
-    <!-- ════════════════════════════════════════════ -->
-    <!-- PRACTICE TOOLS -->
-    <!-- ════════════════════════════════════════════ -->
-    <div class="extra-section" id="tools">
-      <h3>⚙️ Practice Engine</h3>
-      <div class="files-grid">
-        <a class="file-link" href="../practice-engine/quiz_engine.py"><span class="file-icon">🐍</span><span class="file-name">quiz_engine.py — Interactive quiz with 40+ questions (run in terminal)</span><span class="file-type tag-py">Python</span></a>
-        <a class="file-link" href="../practice-engine/score_tracker.py"><span class="file-icon">🐍</span><span class="file-name">score_tracker.py — Track quiz scores and phase progress</span><span class="file-type tag-py">Python</span></a>
-      </div>
-    </div>
+    <!-- Phase list -->
+    <div id="phase-grid" class="space-y-3"></div>
 
   </main>
-</div>
 
-<script>
-  // ── Toggle phase sections ──
-  function toggle(header) {
-    const section = header.parentElement;
-    section.classList.toggle('open');
-  }
+  <footer class="border-t border-white/5 py-8 text-center text-xs font-mono text-slate-600">
+    Python Mastery Academy &bull; Served via GitHub Pages &bull;
+    <a href="https://github.com/ShorrohS/InteractivePythonfromScratch" class="text-cyan-700 hover:text-cyan-400 transition ml-1">View on GitHub &#8599;</a>
+  </footer>
 
-  function openPhase(id) {
-    const el = document.getElementById(id);
-    if (el) { el.classList.add('open'); el.scrollIntoView({behavior:'smooth',block:'start'}); }
-  }
+  <script>
+    const PHASES=[
+      {id:"phase-00-environment",num:"00",title:"Environment Setup",emoji:"&#128295;",accent:"cyan",time:"~3 hrs",desc:"Install Python, configure VS Code, master the terminal, set up virtual environments and Git.",
+       lessons:[
+         {t:"What is Programming & How Software Works",p:"Python-Mastery-Academy/phase-00-environment/concepts/lesson-01-what-is-programming.md",time:"30 min"},
+         {t:"Installing Python",p:"Python-Mastery-Academy/phase-00-environment/concepts/lesson-02-installing-python.md",time:"20 min"},
+         {t:"VS Code Setup",p:"Python-Mastery-Academy/phase-00-environment/concepts/lesson-03-vscode-setup.md",time:"30 min"},
+         {t:"Terminal Mastery",p:"Python-Mastery-Academy/phase-00-environment/concepts/lesson-04-terminal-mastery.md",time:"45 min"},
+         {t:"Virtual Environments",p:"Python-Mastery-Academy/phase-00-environment/concepts/lesson-05-virtual-environments.md",time:"30 min"},
+         {t:"Git Fundamentals",p:"Python-Mastery-Academy/phase-00-environment/concepts/lesson-06-git-fundamentals.md",time:"45 min"},
+       ],
+       extras:[
+         {l:"Phase README",p:"Python-Mastery-Academy/phase-00-environment/README.md",i:"&#128196;"},
+         {l:"Environment Cheat Sheet",p:"Python-Mastery-Academy/phase-00-environment/cheat-sheets/environment-cheatsheet.md",i:"&#128203;"},
+         {l:"Exercises",p:"Python-Mastery-Academy/phase-00-environment/exercises/beginner/exercises.md",i:"&#9999;&#65039;"},
+         {l:"Quiz 01",p:"Python-Mastery-Academy/phase-00-environment/quizzes/quiz-01.md",i:"&#129514;"},
+       ]},
+      {id:"phase-01-fundamentals",num:"01",title:"Python Fundamentals",emoji:"&#128013;",accent:"emerald",time:"~5 hrs",desc:"Variables, data types, input/output, operators, strings, numbers, and boolean logic.",
+       lessons:[
+         {t:"Hello World & Your First Program",p:"Python-Mastery-Academy/phase-01-fundamentals/concepts/lesson-01-hello-world.md",time:"20 min"},
+         {t:"Variables & Assignment",p:"Python-Mastery-Academy/phase-01-fundamentals/concepts/lesson-02-variables.md",time:"30 min"},
+         {t:"Data Types",p:"Python-Mastery-Academy/phase-01-fundamentals/concepts/lesson-03-data-types.md",time:"35 min"},
+         {t:"Input & Output",p:"Python-Mastery-Academy/phase-01-fundamentals/concepts/lesson-04-input-output.md",time:"25 min"},
+         {t:"Operators",p:"Python-Mastery-Academy/phase-01-fundamentals/concepts/lesson-05-operators.md",time:"30 min"},
+         {t:"Strings",p:"Python-Mastery-Academy/phase-01-fundamentals/concepts/lesson-06-strings.md",time:"45 min"},
+         {t:"Numbers & Math",p:"Python-Mastery-Academy/phase-01-fundamentals/concepts/lesson-07-numbers.md",time:"30 min"},
+         {t:"Boolean Logic",p:"Python-Mastery-Academy/phase-01-fundamentals/concepts/lesson-08-boolean-logic.md",time:"30 min"},
+       ],
+       extras:[
+         {l:"Phase README",p:"Python-Mastery-Academy/phase-01-fundamentals/README.md",i:"&#128196;"},
+         {l:"Cheat Sheet",p:"Python-Mastery-Academy/phase-01-fundamentals/cheat-sheets/fundamentals-cheatsheet.md",i:"&#128203;"},
+         {l:"Exercises",p:"Python-Mastery-Academy/phase-01-fundamentals/exercises/beginner/exercises.md",i:"&#9999;&#65039;"},
+       ]},
+      {id:"phase-02-control-flow",num:"02",title:"Control Flow",emoji:"&#128256;",accent:"violet",time:"~4 hrs",desc:"Conditional statements, while loops, for loops, and flow control logic.",
+       lessons:[
+         {t:"If, Elif, Else",p:"Python-Mastery-Academy/phase-02-control-flow/concepts/lesson-01-if-elif-else.md",time:"35 min"},
+         {t:"While Loops",p:"Python-Mastery-Academy/phase-02-control-flow/concepts/lesson-03-while-loops.md",time:"30 min"},
+         {t:"For Loops",p:"Python-Mastery-Academy/phase-02-control-flow/concepts/lesson-04-for-loops.md",time:"35 min"},
+       ],
+       extras:[{l:"Phase README",p:"Python-Mastery-Academy/phase-02-control-flow/README.md",i:"&#128196;"}]},
+      {id:"phase-03-collections",num:"03",title:"Collections & Data Structures",emoji:"&#128230;",accent:"amber",time:"~5 hrs",desc:"Lists, tuples, dictionaries, sets — Python's built-in data containers.",
+       lessons:[
+         {t:"Lists",p:"Python-Mastery-Academy/phase-03-collections/concepts/lesson-01-lists.md",time:"40 min"},
+         {t:"Tuples",p:"Python-Mastery-Academy/phase-03-collections/concepts/lesson-02-tuples.md",time:"25 min"},
+         {t:"Dictionaries",p:"Python-Mastery-Academy/phase-03-collections/concepts/lesson-03-dictionaries.md",time:"40 min"},
+         {t:"Sets",p:"Python-Mastery-Academy/phase-03-collections/concepts/lesson-04-sets.md",time:"25 min"},
+       ],
+       extras:[
+         {l:"Phase README",p:"Python-Mastery-Academy/phase-03-collections/README.md",i:"&#128196;"},
+         {l:"Exercises",p:"Python-Mastery-Academy/phase-03-collections/exercises/beginner/exercises.md",i:"&#9999;&#65039;"},
+       ]},
+      {id:"phase-04-functions",num:"04",title:"Functions",emoji:"&#9881;&#65039;",accent:"blue",time:"~4 hrs",desc:"Defining functions, parameters, return values, scope, args/kwargs, and lambda.",
+       lessons:[
+         {t:"Function Basics",p:"Python-Mastery-Academy/phase-04-functions/concepts/lesson-01-basics.md",time:"35 min"},
+         {t:"*args and **kwargs",p:"Python-Mastery-Academy/phase-04-functions/concepts/lesson-04-args-kwargs.md",time:"35 min"},
+       ],
+       extras:[{l:"Phase README",p:"Python-Mastery-Academy/phase-04-functions/README.md",i:"&#128196;"}]},
+      {id:"phase-05-file-handling",num:"05",title:"File Handling",emoji:"&#128194;",accent:"emerald",time:"~3 hrs",desc:"Reading/writing text files, CSV parsing, and JSON data processing.",
+       lessons:[
+         {t:"Text Files",p:"Python-Mastery-Academy/phase-05-file-handling/concepts/lesson-01-text-files.md",time:"30 min"},
+         {t:"CSV Files",p:"Python-Mastery-Academy/phase-05-file-handling/concepts/lesson-02-csv.md",time:"30 min"},
+         {t:"JSON Files",p:"Python-Mastery-Academy/phase-05-file-handling/concepts/lesson-03-json.md",time:"30 min"},
+       ],
+       extras:[{l:"Phase README",p:"Python-Mastery-Academy/phase-05-file-handling/README.md",i:"&#128196;"}]},
+      {id:"phase-06-error-handling",num:"06",title:"Error Handling",emoji:"&#128737;&#65039;",accent:"rose",time:"~2 hrs",desc:"Try/except blocks, exception types, raising custom exceptions, and defensive coding.",
+       lessons:[
+         {t:"Try / Except",p:"Python-Mastery-Academy/phase-06-error-handling/concepts/lesson-01-try-except.md",time:"35 min"},
+         {t:"Raising Exceptions",p:"Python-Mastery-Academy/phase-06-error-handling/concepts/lesson-04-raise.md",time:"25 min"},
+       ],
+       extras:[{l:"Phase README",p:"Python-Mastery-Academy/phase-06-error-handling/README.md",i:"&#128196;"}]},
+      {id:"phase-07-oop",num:"07",title:"Object-Oriented Programming",emoji:"&#129521;",accent:"violet",time:"~6 hrs",desc:"Classes, objects, inheritance, encapsulation, polymorphism, and design patterns.",
+       lessons:[
+         {t:"Classes & Objects",p:"Python-Mastery-Academy/phase-07-oop/concepts/lesson-01-classes.md",time:"50 min"},
+         {t:"Inheritance",p:"Python-Mastery-Academy/phase-07-oop/concepts/lesson-03-inheritance.md",time:"45 min"},
+       ],
+       extras:[
+         {l:"Phase README",p:"Python-Mastery-Academy/phase-07-oop/README.md",i:"&#128196;"},
+         {l:"OOP Cheat Sheet",p:"Python-Mastery-Academy/phase-07-oop/cheat-sheets/oop-cheatsheet.md",i:"&#128203;"},
+       ]},
+      {id:"phase-08-projects",num:"08",title:"Intermediate Projects",emoji:"&#128640;",accent:"cyan",time:"~8 hrs",desc:"Build real projects consolidating Phases 00-07 skills.",
+       lessons:[],
+       extras:[{l:"Phase README & Projects",p:"Python-Mastery-Academy/phase-08-intermediate-projects/README.md",i:"&#128196;"}]},
+      {id:"phase-09-databases",num:"09",title:"Databases",emoji:"&#128452;&#65039;",accent:"amber",time:"~4 hrs",desc:"SQLite, SQL fundamentals, and Python database integration with sqlite3.",
+       lessons:[{t:"SQLite with Python",p:"Python-Mastery-Academy/phase-09-databases/concepts/lesson-02-sqlite.md",time:"50 min"}],
+       extras:[{l:"Phase README",p:"Python-Mastery-Academy/phase-09-databases/README.md",i:"&#128196;"}]},
+      {id:"phase-17-advanced",num:"17",title:"Advanced Python",emoji:"&#9889;",accent:"violet",time:"~5 hrs",desc:"Decorators, generators, context managers, metaclasses, and advanced patterns.",
+       lessons:[
+         {t:"Decorators",p:"Python-Mastery-Academy/phase-17-advanced-python/concepts/lesson-01-decorators.md",time:"45 min"},
+         {t:"Generators",p:"Python-Mastery-Academy/phase-17-advanced-python/concepts/lesson-02-generators.md",time:"40 min"},
+       ],
+       extras:[{l:"Phase README",p:"Python-Mastery-Academy/phase-17-advanced-python/README.md",i:"&#128196;"}]},
+      {id:"phase-18-business",num:"18",title:"Business Projects",emoji:"&#128188;",accent:"emerald",time:"~12 hrs",desc:"Build an Employee Management System and other real-world business applications.",
+       lessons:[],
+       extras:[
+         {l:"Phase README",p:"Python-Mastery-Academy/phase-18-business-projects/README.md",i:"&#128196;"},
+         {l:"EMS Requirements",p:"Python-Mastery-Academy/phase-18-business-projects/employee-management-system/docs/requirements.md",i:"&#128203;"},
+       ]},
+      {id:"phase-20-capstone",num:"20",title:"Capstone Project",emoji:"&#127891;",accent:"cyan",time:"~20 hrs",desc:"Final capstone: plan, build, test, and deploy a full-stack Python application.",
+       lessons:[],
+       extras:[
+         {l:"Phase README",p:"Python-Mastery-Academy/phase-20-capstone/README.md",i:"&#128196;"},
+         {l:"Deployment Guide",p:"Python-Mastery-Academy/phase-20-capstone/docs/deployment-guide.md",i:"&#128640;"},
+       ]},
+    ];
 
-  let allOpen = false;
-  function toggleAll() {
-    allOpen = !allOpen;
-    document.querySelectorAll('.phase-section').forEach(s => {
-      allOpen ? s.classList.add('open') : s.classList.remove('open');
-    });
-    document.querySelector('.expand-all').textContent = allOpen ? 'Collapse All' : 'Expand All';
-  }
+    const AC={
+      cyan:   {badge:"bg-cyan-500/10 text-cyan-400 border-cyan-500/25",   num:"text-cyan-400"},
+      emerald:{badge:"bg-emerald-500/10 text-emerald-400 border-emerald-500/25",num:"text-emerald-400"},
+      violet: {badge:"bg-violet-500/10 text-violet-400 border-violet-500/25",  num:"text-violet-400"},
+      amber:  {badge:"bg-amber-500/10 text-amber-400 border-amber-500/25",      num:"text-amber-400"},
+      rose:   {badge:"bg-rose-500/10 text-rose-400 border-rose-500/25",          num:"text-rose-400"},
+      blue:   {badge:"bg-blue-500/10 text-blue-400 border-blue-500/25",          num:"text-blue-400"},
+    };
 
-  // ── Live search ──
-  const searchInput = document.getElementById('search');
-  const searchCount = document.getElementById('search-count');
-  const noResults = document.getElementById('no-results');
+    function card(ph) {
+      const c = AC[ph.accent]||AC.cyan;
+      const lessonsHTML = ph.lessons.map((l,i)=>`
+        <a href="lesson.html?path=${encodeURIComponent(l.p)}" class="lesson-link group">
+          <div style="display:flex;align-items:center;gap:.5rem;min-width:0">
+            <span style="flex-shrink:0;width:1.25rem;height:1.25rem;border-radius:.375rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;font-size:.625rem;font-family:'JetBrains Mono',monospace;font-weight:700" class="${c.num}">${String(i+1).padStart(2,'0')}</span>
+            <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${l.t}</span>
+          </div>
+          <span style="flex-shrink:0;font-size:.625rem;font-family:'JetBrains Mono',monospace;color:#334155">${l.time}</span>
+        </a>`).join('');
+      const extrasHTML = (ph.extras||[]).map(e=>`
+        <a href="lesson.html?path=${encodeURIComponent(e.p)}" class="lesson-link" style="color:#475569;font-size:.8rem">
+          <div style="display:flex;align-items:center;gap:.5rem">${e.i} ${e.l}</div>
+          <span style="font-size:.625rem;font-family:'JetBrains Mono',monospace;color:#1e293b">&#8599;</span>
+        </a>`).join('');
+      const sep = extrasHTML ? `<div style="border-top:1px solid rgba(255,255,255,.04);margin:.5rem 0;padding-top:.5rem">${extrasHTML}</div>` : '';
 
-  searchInput.addEventListener('input', function() {
-    const q = this.value.trim().toLowerCase();
-
-    if (!q) {
-      // Reset
-      document.querySelectorAll('.file-link').forEach(l => l.classList.remove('hidden-by-search'));
-      document.querySelectorAll('.phase-section').forEach(s => s.classList.remove('hidden-by-search'));
-      document.querySelectorAll('.extra-section').forEach(s => s.classList.remove('hidden-by-search'));
-      searchCount.textContent = '';
-      noResults.style.display = 'none';
-      return;
+      return `<div class="phase-card rounded-2xl overflow-hidden" id="${ph.id}">
+        <button onclick="toggle('${ph.id}')" style="width:100%;text-align:left;padding:1.25rem;display:flex;align-items:center;gap:1rem;background:transparent;border:none;cursor:pointer">
+          <div style="font-size:1.75rem;flex-shrink:0">${ph.emoji}</div>
+          <div style="flex:1;min-width:0">
+            <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:.25rem">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700" class="${c.num}">PHASE ${ph.num}</span>
+              <span style="font-size:.6rem;padding:.15rem .5rem;border-radius:9999px;border:1px solid;font-family:'JetBrains Mono',monospace;font-weight:600" class="${c.badge}">${ph.time}</span>
+              ${ph.lessons.length?`<span style="font-size:.6rem;padding:.15rem .5rem;border-radius:9999px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);color:#475569;font-family:'JetBrains Mono',monospace">${ph.lessons.length} lessons</span>`:''}
+            </div>
+            <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;color:#f8fafc;font-size:.975rem;line-height:1.3">${ph.title}</div>
+            <p style="font-size:.75rem;color:#475569;margin-top:.2rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${ph.desc}</p>
+          </div>
+          <span class="collapse-btn" style="color:#334155;font-size:1.1rem;flex-shrink:0">&#9662;</span>
+        </button>
+        <div id="${ph.id}-c" style="border-top:1px solid rgba(255,255,255,.05);overflow:hidden;max-height:0;transition:max-height .35s ease">
+          <div style="padding:.75rem">${lessonsHTML}${sep}</div>
+        </div>
+      </div>`;
     }
 
-    let total = 0;
-
-    // Search file links
-    document.querySelectorAll('.file-link').forEach(link => {
-      const text = link.textContent.toLowerCase();
-      if (text.includes(q)) {
-        link.classList.remove('hidden-by-search');
-        total++;
-      } else {
-        link.classList.add('hidden-by-search');
-      }
-    });
-
-    // Show/hide phase sections based on whether they have visible links
-    document.querySelectorAll('.phase-section').forEach(section => {
-      const visibleLinks = section.querySelectorAll('.file-link:not(.hidden-by-search)').length;
-      if (visibleLinks > 0) {
-        section.classList.remove('hidden-by-search');
-        section.classList.add('open');
-      } else {
-        section.classList.add('hidden-by-search');
-      }
-    });
-
-    // Show/hide extra sections
-    document.querySelectorAll('.extra-section').forEach(section => {
-      const visibleLinks = section.querySelectorAll('.file-link:not(.hidden-by-search)').length;
-      visibleLinks > 0
-        ? section.classList.remove('hidden-by-search')
-        : section.classList.add('hidden-by-search');
-    });
-
-    searchCount.textContent = total > 0 ? `${total} result${total !== 1 ? 's' : ''}` : '';
-    noResults.style.display = total === 0 ? 'block' : 'none';
-  });
-
-  // ── Keyboard shortcut: / to focus search ──
-  document.addEventListener('keydown', e => {
-    if (e.key === '/' && document.activeElement !== searchInput) {
-      e.preventDefault();
-      searchInput.focus();
-      searchInput.select();
+    function toggle(id) {
+      const el = document.getElementById(id+'-c');
+      const btn = document.querySelector('#'+id+' .collapse-btn');
+      const open = el.style.maxHeight && el.style.maxHeight !== '0px';
+      el.style.maxHeight = open ? '0' : el.scrollHeight+'px';
+      btn.style.transform = open ? '' : 'rotate(180deg)';
     }
-    if (e.key === 'Escape') {
-      searchInput.value = '';
-      searchInput.dispatchEvent(new Event('input'));
-      searchInput.blur();
-    }
-  });
-</script>
 
+    const grid = document.getElementById('phase-grid');
+    PHASES.forEach(ph => { const d=document.createElement('div'); d.innerHTML=card(ph); grid.appendChild(d.firstElementChild); });
+    setTimeout(()=>toggle('phase-00-environment'), 150);
+  </script>
 </body>
 </html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loading... — Python Mastery Academy</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11/styles/github-dark-dimmed.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11/highlight.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11/languages/python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11/languages/bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11/languages/json.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <script>tailwind.config={darkMode:'class',theme:{extend:{fontFamily:{sans:['Inter','sans-serif'],display:['Space Grotesk','sans-serif'],mono:['JetBrains Mono','monospace']}}}}</script>
+  <style>
+    body{background:#07090f}
+    .bg-grid{background-image:radial-gradient(rgba(255,255,255,.055) 1px,transparent 1px);background-size:28px 28px}
+    .sticky-header{backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+    ::-webkit-scrollbar{width:5px}
+    ::-webkit-scrollbar-track{background:#07090f}
+    ::-webkit-scrollbar-thumb{background:#1e2535;border-radius:4px}
+
+    /* ── Markdown ── */
+    .md-body{color:#cbd5e1;line-height:1.85;font-size:.95rem}
+    .md-body h1{font-family:'Space Grotesk',sans-serif;font-size:2.1rem;font-weight:800;color:#f8fafc;line-height:1.2;margin:0 0 1.25rem;padding-bottom:.75rem;border-bottom:1px solid rgba(255,255,255,.08)}
+    .md-body h2{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700;color:#f1f5f9;margin:2.5rem 0 .9rem;padding-left:.75rem;border-left:3px solid #00f2fe}
+    .md-body h3{font-size:1.1rem;font-weight:600;color:#e2e8f0;margin:1.75rem 0 .6rem}
+    .md-body h4{font-size:.875rem;font-weight:600;color:#94a3b8;margin:1.25rem 0 .4rem;text-transform:uppercase;letter-spacing:.06em}
+    .md-body p{margin:.85rem 0}
+    .md-body a{color:#00f2fe;text-decoration:none;border-bottom:1px solid rgba(0,242,254,.3);transition:border-color .15s}
+    .md-body a:hover{border-color:#00f2fe}
+    .md-body strong{color:#f1f5f9;font-weight:600}
+    .md-body em{color:#a78bfa;font-style:italic}
+    .md-body blockquote{margin:1.25rem 0;padding:.8rem 1rem;background:rgba(0,242,254,.05);border-left:3px solid rgba(0,242,254,.4);border-radius:0 8px 8px 0;color:#94a3b8;font-style:italic}
+    .md-body ul{margin:.75rem 0;padding-left:0;list-style:none}
+    .md-body ul li{padding:.2rem 0 .2rem 1.5rem;position:relative}
+    .md-body ul li::before{content:'&#9658;';position:absolute;left:0;color:#00f2fe;font-size:.7rem;top:.35rem}
+    .md-body ol{margin:.75rem 0;padding-left:1.5rem}
+    .md-body ol li{padding:.2rem 0}
+    .md-body ol li::marker{color:#00f2fe;font-weight:600}
+    .md-body hr{border:none;border-top:1px solid rgba(255,255,255,.07);margin:2rem 0}
+    .md-body :not(pre)>code{background:rgba(0,242,254,.08);border:1px solid rgba(0,242,254,.15);color:#00f2fe;padding:.1em .45em;border-radius:5px;font-family:'JetBrains Mono',monospace;font-size:.85em}
+    .md-body pre{margin:1.25rem 0;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.08);position:relative}
+    .md-body pre code{display:block;padding:1.1rem 1.25rem;font-family:'JetBrains Mono',monospace;font-size:.82rem;line-height:1.65;overflow-x:auto;background:#0d1117!important;border-radius:0}
+    .md-body pre .lang-label{position:absolute;top:0;right:0;padding:3px 10px;background:rgba(0,242,254,.1);color:rgba(0,242,254,.6);font-size:10px;font-family:'JetBrains Mono',monospace;border-radius:0 10px 0 8px;text-transform:uppercase;letter-spacing:.08em}
+    .copy-btn{position:absolute;bottom:8px;right:8px;padding:3px 10px;border-radius:6px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#64748b;font-size:10px;font-family:'JetBrains Mono',monospace;cursor:pointer;transition:all .15s;opacity:0}
+    .md-body pre:hover .copy-btn{opacity:1}
+    .copy-btn:hover{background:rgba(0,242,254,.1);color:#00f2fe;border-color:rgba(0,242,254,.3)}
+    .md-body table{width:100%;border-collapse:collapse;margin:1.25rem 0;border-radius:10px;overflow:hidden}
+    .md-body th{background:rgba(0,242,254,.07);color:#00f2fe;padding:.6rem 1rem;text-align:left;font-size:.72rem;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.07em;border-bottom:1px solid rgba(255,255,255,.08)}
+    .md-body td{padding:.55rem 1rem;font-size:.88rem;color:#94a3b8;border-bottom:1px solid rgba(255,255,255,.04)}
+    .md-body tr:hover td{background:rgba(255,255,255,.025);color:#cbd5e1}
+    .md-body tr:last-child td{border-bottom:none}
+    .md-body input[type="checkbox"]{accent-color:#00f2fe;margin-right:6px}
+    .toc-link{color:#475569;font-size:.78rem;transition:color .15s,padding-left .15s;display:block;padding:3px 0 3px 8px;border-left:2px solid transparent;text-decoration:none}
+    .toc-link:hover,.toc-link.active{color:#00f2fe;border-left-color:#00f2fe;padding-left:12px}
+    .toc-h3{padding-left:20px!important;font-size:.7rem;color:#334155}
+    .skeleton{background:linear-gradient(90deg,#0e1118 25%,#151a24 50%,#0e1118 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:.5rem}
+    @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+  </style>
+</head>
+<body class="bg-grid text-slate-100 font-sans min-h-screen">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 border-b border-white/5 bg-[#07090f]/80 sticky-header">
+    <div class="max-w-6xl mx-auto px-4 h-14 flex items-center gap-3">
+      <a href="index.html" class="flex items-center gap-1.5 shrink-0 text-slate-400 hover:text-cyan-400 transition text-sm font-mono">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        Academy
+      </a>
+      <span class="text-slate-700">|</span>
+      <nav id="breadcrumb" class="flex items-center gap-1 text-xs font-mono text-slate-500 overflow-x-auto whitespace-nowrap flex-1 min-w-0">
+        <span class="text-slate-700">Loading...</span>
+      </nav>
+      <div class="shrink-0 hidden sm:flex items-center gap-2 text-xs font-mono">
+        <div class="w-20 h-1.5 bg-white/5 rounded-full overflow-hidden">
+          <div id="read-progress" class="h-full bg-gradient-to-r from-cyan-500 to-violet-500 rounded-full transition-all duration-100" style="width:0%"></div>
+        </div>
+        <span id="read-pct" class="text-slate-700 text-[10px]">0%</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="max-w-6xl mx-auto px-4 py-8 flex gap-8">
+
+    <!-- TOC Sidebar -->
+    <aside class="hidden lg:block w-52 shrink-0">
+      <div class="sticky top-20">
+        <div class="text-[10px] font-mono text-slate-600 uppercase tracking-widest mb-3 pl-2">On this page</div>
+        <nav id="toc" class="space-y-0.5 max-h-[80vh] overflow-y-auto pr-1">
+          <div class="skeleton h-3 w-3/4 mb-2" style="height:12px"></div>
+          <div class="skeleton h-3 w-1/2 mb-2" style="height:12px"></div>
+          <div class="skeleton h-3 w-5/6 mb-2" style="height:12px"></div>
+        </nav>
+        <div class="mt-6 pt-4 border-t border-white/5">
+          <a id="github-link" href="#" target="_blank" class="text-[10px] font-mono text-slate-600 hover:text-cyan-400 transition flex items-center gap-1.5">
+            <svg width="11" height="11" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.165 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.682-.103-.253-.446-1.27.098-2.646 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.376.202 2.394.1 2.646.64.698 1.028 1.591 1.028 2.682 0 3.841-2.337 4.687-4.565 4.935.359.309.678.919.678 1.852 0 1.338-.012 2.419-.012 2.746 0 .267.18.578.688.48C19.138 20.161 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+            View on GitHub
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <article class="flex-1 min-w-0">
+      <!-- Meta card -->
+      <div id="meta-card" class="mb-6 p-4 rounded-xl bg-white/[.03] border border-white/7 hidden">
+        <div class="flex flex-wrap gap-3 text-xs font-mono text-slate-500">
+          <span id="meta-phase" class="px-2 py-1 rounded-lg bg-cyan-500/8 text-cyan-500 border border-cyan-500/15"></span>
+          <span id="meta-time" class="flex items-center gap-1">
+            <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span></span>
+          </span>
+          <span id="meta-prereq" class="text-slate-600"></span>
+        </div>
+      </div>
+
+      <!-- Skeleton -->
+      <div id="skeleton" class="space-y-4">
+        <div class="skeleton w-3/4" style="height:40px"></div>
+        <div class="skeleton w-full" style="height:14px"></div>
+        <div class="skeleton w-5/6" style="height:14px"></div>
+        <div class="skeleton w-4/5" style="height:14px"></div>
+        <div class="mt-6 skeleton w-1/2" style="height:22px"></div>
+        <div class="skeleton w-full" style="height:14px"></div>
+        <div class="skeleton w-11/12" style="height:14px"></div>
+        <div class="skeleton w-full" style="height:96px"></div>
+        <div class="skeleton w-3/4" style="height:14px"></div>
+      </div>
+
+      <!-- Rendered content -->
+      <div id="md-output" class="md-body hidden"></div>
+
+      <!-- Error state -->
+      <div id="error-state" class="hidden text-center py-20">
+        <div style="font-size:4rem" class="mb-4">&#128269;</div>
+        <h2 class="font-display font-bold text-2xl text-white mb-2">Page Not Found</h2>
+        <p id="error-msg" class="text-slate-500 mb-6"></p>
+        <a href="index.html" class="px-5 py-2.5 rounded-xl bg-cyan-500/10 border border-cyan-500/25 text-cyan-400 hover:bg-cyan-500/20 transition text-sm font-mono">&#8592; Back to Academy</a>
+      </div>
+
+      <!-- Bottom nav -->
+      <div id="bottom-nav" class="hidden mt-12 pt-6 border-t border-white/5 flex items-center justify-between gap-4">
+        <a href="index.html" class="text-xs font-mono text-slate-500 hover:text-cyan-400 transition flex items-center gap-1">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+          Back to Academy
+        </a>
+        <span id="file-info" class="text-xs font-mono text-slate-700"></span>
+      </div>
+    </article>
+  </div>
+
+  <footer class="border-t border-white/5 py-6 text-center text-xs font-mono text-slate-700 mt-8">
+    Python Mastery Academy &bull;
+    <a href="https://github.com/ShorrohS/InteractivePythonfromScratch" class="text-cyan-800 hover:text-cyan-400 transition ml-1">GitHub &#8599;</a>
+  </footer>
+
+  <script>
+    const params = new URLSearchParams(location.search);
+    const rawPath = params.get('path') || 'Python-Mastery-Academy/README.md';
+
+    document.getElementById('github-link').href =
+      'https://github.com/ShorrohS/InteractivePythonfromScratch/blob/main/' + rawPath;
+
+    function buildBreadcrumb(path) {
+      const bc = document.getElementById('breadcrumb');
+      bc.innerHTML = '';
+      const parts = path.split('/');
+      parts.forEach((part, i) => {
+        if (i === parts.length - 1) {
+          const s = document.createElement('span');
+          s.className = 'text-slate-300 font-semibold truncate';
+          s.textContent = part.replace(/-/g,' ').replace('.md','').replace('.py','');
+          bc.appendChild(s);
+        } else {
+          const a = document.createElement('a');
+          a.href = 'index.html';
+          a.className = 'hover:text-cyan-400 transition truncate max-w-[6rem]';
+          a.textContent = part.replace(/-/g,' ');
+          bc.appendChild(a);
+          const sep = document.createElement('span');
+          sep.className = 'text-slate-700 mx-1';
+          sep.textContent = '/';
+          bc.appendChild(sep);
+        }
+      });
+    }
+
+    function resolvePath(path) {
+      const parts = path.split('/');
+      const r = [];
+      for (const p of parts) { if (p==='..') r.pop(); else if (p!=='.') r.push(p); }
+      return r.join('/');
+    }
+
+    // Configure marked renderer
+    const renderer = new marked.Renderer();
+
+    renderer.link = function(href, title, text) {
+      if (!href) return `<a>${text}</a>`;
+      if (href.endsWith('.md') && !href.startsWith('http')) {
+        const base = rawPath.substring(0, rawPath.lastIndexOf('/')+1);
+        const resolved = resolvePath(base + href);
+        return `<a href="lesson.html?path=${encodeURIComponent(resolved)}">${text}</a>`;
+      }
+      const ext = href.startsWith('http');
+      return `<a href="${href}" ${ext?'target="_blank" rel="noopener"':''}>${text}</a>`;
+    };
+
+    renderer.code = function(code, lang) {
+      const vl = lang && hljs.getLanguage(lang) ? lang : '';
+      let hi;
+      try { hi = vl ? hljs.highlight(code,{language:vl}).value : hljs.highlightAuto(code).value; }
+      catch(e) { hi = code.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+      const lbl = lang ? `<span class="lang-label">${lang}</span>` : '';
+      const cp = `<button class="copy-btn" onclick="copyCode(this)">copy</button>`;
+      return `<pre class="relative">${lbl}<code class="hljs">${hi}</code>${cp}</pre>`;
+    };
+
+    renderer.listitem = function(text) {
+      if (/^\[[ x]\]/.test(text)) {
+        const checked = text.startsWith('[x]');
+        text = text.replace(/^\[[ x]\]\s*/,'');
+        return `<li><input type="checkbox" ${checked?'checked':''} disabled> ${text}</li>`;
+      }
+      return `<li>${text}</li>`;
+    };
+
+    marked.use({renderer, breaks:true, gfm:true});
+
+    function copyCode(btn) {
+      navigator.clipboard.writeText(btn.closest('pre').querySelector('code').innerText).then(()=>{
+        btn.textContent='copied!'; btn.style.color='#10b981';
+        setTimeout(()=>{btn.textContent='copy';btn.style.color='';},2000);
+      });
+    }
+
+    function buildTOC() {
+      const toc = document.getElementById('toc');
+      const hs = document.querySelectorAll('.md-body h2, .md-body h3');
+      if (hs.length < 2) { toc.innerHTML='<span style="color:#334155;font-size:.7rem">No sections</span>'; return; }
+      toc.innerHTML = '';
+      hs.forEach((h,i) => {
+        const id = 'sec-'+i; h.id=id;
+        const a = document.createElement('a');
+        a.href = '#'+id;
+        a.className = 'toc-link' + (h.tagName==='H3'?' toc-h3':'');
+        a.textContent = h.textContent.trim();
+        a.addEventListener('click', e => { e.preventDefault(); h.scrollIntoView({behavior:'smooth',block:'start'}); });
+        toc.appendChild(a);
+      });
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(en => {
+          const el = toc.querySelector('a[href="#'+en.target.id+'"]');
+          if (el) el.classList.toggle('active', en.isIntersecting);
+        });
+      }, {rootMargin:'-20px 0px -70% 0px'});
+      hs.forEach(h => obs.observe(h));
+    }
+
+    window.addEventListener('scroll', () => {
+      const docH = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = docH>0 ? Math.round(window.scrollY/docH*100) : 0;
+      document.getElementById('read-progress').style.width = pct+'%';
+      document.getElementById('read-pct').textContent = pct+'%';
+    });
+
+    function extractMeta(text) {
+      const m = {}; const lines = text.split('\n').slice(0,15);
+      for (const l of lines) {
+        if (/Phase:/i.test(l)) m.phase = l.replace(/.*Phase:\*?\*?\s*/i,'').trim();
+        if (/Time:/i.test(l)) m.time = l.replace(/.*Time:\*?\*?\s*/i,'').trim();
+        if (/Prerequisite:/i.test(l)) m.prereq = l.replace(/.*Prerequisite:\*?\*?\s*/i,'').trim();
+      }
+      return m;
+    }
+
+    async function load() {
+      buildBreadcrumb(rawPath);
+      try {
+        const res = await fetch(rawPath);
+        if (!res.ok) throw new Error('HTTP '+res.status+': '+res.statusText);
+        const text = await res.text();
+
+        const h1 = text.match(/^#\s+(.+)$/m);
+        document.title = (h1?h1[1]:rawPath.split('/').pop().replace('.md','')) + ' — Python Mastery Academy';
+
+        const meta = extractMeta(text);
+        if (meta.phase||meta.time) {
+          document.getElementById('meta-card').classList.remove('hidden');
+          if (meta.phase) document.getElementById('meta-phase').textContent = meta.phase;
+          if (meta.time) document.getElementById('meta-time').querySelector('span').textContent = meta.time;
+          if (meta.prereq) document.getElementById('meta-prereq').textContent = 'Requires: '+meta.prereq;
+        }
+
+        const out = document.getElementById('md-output');
+        out.innerHTML = marked.parse(text);
+        document.getElementById('skeleton').classList.add('hidden');
+        out.classList.remove('hidden');
+        document.getElementById('bottom-nav').classList.remove('hidden');
+        document.getElementById('file-info').textContent = rawPath.split('/').pop();
+        buildTOC();
+      } catch(err) {
+        document.getElementById('skeleton').classList.add('hidden');
+        document.getElementById('error-state').classList.remove('hidden');
+        document.getElementById('error-msg').textContent = 'Could not load "'+rawPath+'". '+err.message;
+        document.title = 'Not Found — Python Mastery Academy';
+      }
+    }
+
+    load();
+  </script>
+</body>
+</html>
