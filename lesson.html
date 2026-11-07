@@ -23,7 +23,7 @@
     ::-webkit-scrollbar-track{background:#07090f}
     ::-webkit-scrollbar-thumb{background:#1e2535;border-radius:4px}
 
-    /* ── Markdown ── */
+    /* Markdown styling */
     .md-body{color:#cbd5e1;line-height:1.85;font-size:.95rem}
     .md-body h1{font-family:'Space Grotesk',sans-serif;font-size:2.1rem;font-weight:800;color:#f8fafc;line-height:1.2;margin:0 0 1.25rem;padding-bottom:.75rem;border-bottom:1px solid rgba(255,255,255,.08)}
     .md-body h2{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700;color:#f1f5f9;margin:2.5rem 0 .9rem;padding-left:.75rem;border-left:3px solid #00f2fe}
@@ -136,12 +136,15 @@
       <!-- Rendered content -->
       <div id="md-output" class="md-body hidden"></div>
 
-      <!-- Error state -->
-      <div id="error-state" class="hidden text-center py-20">
-        <div style="font-size:4rem" class="mb-4">&#128269;</div>
-        <h2 class="font-display font-bold text-2xl text-white mb-2">Page Not Found</h2>
-        <p id="error-msg" class="text-slate-500 mb-6"></p>
-        <a href="index.html" class="px-5 py-2.5 rounded-xl bg-cyan-500/10 border border-cyan-500/25 text-cyan-400 hover:bg-cyan-500/20 transition text-sm font-mono">&#8592; Back to Academy</a>
+      <!-- State: Error / In-Progress -->
+      <div id="error-state" class="hidden text-center py-16">
+        <div id="state-icon" style="font-size:3.5rem" class="mb-4">&#128640;</div>
+        <h2 id="state-title" class="font-display font-bold text-2xl text-white mb-2">Module In Development</h2>
+        <p id="error-msg" class="text-slate-400 text-sm max-w-lg mx-auto mb-6"></p>
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          <a href="index.html" class="px-5 py-2.5 rounded-xl bg-cyan-500/10 border border-cyan-500/25 text-cyan-400 hover:bg-cyan-500/20 transition text-sm font-mono">&#8592; Back to Academy Hub</a>
+          <a id="phase-parent-link" href="#" class="hidden px-5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-300 hover:bg-white/10 transition text-sm font-mono">Phase Overview &#8594;</a>
+        </div>
       </div>
 
       <!-- Bottom nav -->
@@ -161,6 +164,8 @@
   </footer>
 
   <script>
+    const KNOWN_FILES = new Set(["Python-Mastery-Academy/PractisePython/phase001.py", "Python-Mastery-Academy/README.md", "Python-Mastery-Academy/dashboards/index.html", "Python-Mastery-Academy/dashboards/progress-dashboard.html", "Python-Mastery-Academy/dashboards/project-gallery.html", "Python-Mastery-Academy/dashboards/roadmap-visualizer.html", "Python-Mastery-Academy/diagrams/cpu-memory-storage.md", "Python-Mastery-Academy/diagrams/execution-flow.md", "Python-Mastery-Academy/diagrams/memory-model.md", "Python-Mastery-Academy/diagrams/python-architecture.md", "Python-Mastery-Academy/index.html", "Python-Mastery-Academy/learning-roadmap/learning-checklist.md", "Python-Mastery-Academy/learning-roadmap/progress-tracker.md", "Python-Mastery-Academy/learning-roadmap/roadmap.md", "Python-Mastery-Academy/learning-roadmap/skills-matrix.md", "Python-Mastery-Academy/phase-00-environment/README.md", "Python-Mastery-Academy/phase-00-environment/cheat-sheets/environment-cheatsheet.md", "Python-Mastery-Academy/phase-00-environment/concepts/lesson-01-what-is-programming.md", "Python-Mastery-Academy/phase-00-environment/concepts/lesson-02-installing-python.md", "Python-Mastery-Academy/phase-00-environment/concepts/lesson-03-vscode-setup.md", "Python-Mastery-Academy/phase-00-environment/concepts/lesson-04-terminal-mastery.md", "Python-Mastery-Academy/phase-00-environment/concepts/lesson-05-virtual-environments.md", "Python-Mastery-Academy/phase-00-environment/concepts/lesson-06-git-fundamentals.md", "Python-Mastery-Academy/phase-00-environment/demos/demo-01-hello-world.py", "Python-Mastery-Academy/phase-00-environment/demos/demo-02-first-program.py", "Python-Mastery-Academy/phase-00-environment/demos/demo-03-python-features.py", "Python-Mastery-Academy/phase-00-environment/exercises/beginner/exercises.md", "Python-Mastery-Academy/phase-00-environment/guided-projects/project-01-first-python-project/README.md", "Python-Mastery-Academy/phase-00-environment/quizzes/quiz-01.md", "Python-Mastery-Academy/phase-00-environment/solutions/beginner/solutions.md", "Python-Mastery-Academy/phase-01-fundamentals/README.md", "Python-Mastery-Academy/phase-01-fundamentals/cheat-sheets/fundamentals-cheatsheet.md", "Python-Mastery-Academy/phase-01-fundamentals/concepts/lesson-01-hello-world.md", "Python-Mastery-Academy/phase-01-fundamentals/concepts/lesson-02-variables.md", "Python-Mastery-Academy/phase-01-fundamentals/concepts/lesson-03-data-types.md", "Python-Mastery-Academy/phase-01-fundamentals/concepts/lesson-04-input-output.md", "Python-Mastery-Academy/phase-01-fundamentals/concepts/lesson-05-operators.md", "Python-Mastery-Academy/phase-01-fundamentals/concepts/lesson-06-strings.md", "Python-Mastery-Academy/phase-01-fundamentals/concepts/lesson-07-numbers.md", "Python-Mastery-Academy/phase-01-fundamentals/concepts/lesson-08-boolean-logic.md", "Python-Mastery-Academy/phase-01-fundamentals/debugging-challenges/challenge-01.py", "Python-Mastery-Academy/phase-01-fundamentals/demos/demo-01-hello-world.py", "Python-Mastery-Academy/phase-01-fundamentals/demos/demo-02-variables.py", "Python-Mastery-Academy/phase-01-fundamentals/demos/demo-06-strings.py", "Python-Mastery-Academy/phase-01-fundamentals/exercises/beginner/exercises.md", "Python-Mastery-Academy/phase-01-fundamentals/guided-projects/project-01-greeting-app/main.py", "Python-Mastery-Academy/phase-01-fundamentals/guided-projects/project-02-employee-profile/main.py", "Python-Mastery-Academy/phase-01-fundamentals/guided-projects/project-03-expense-tracker/main.py", "Python-Mastery-Academy/phase-01-fundamentals/guided-projects/project-04-calculator/main.py", "Python-Mastery-Academy/phase-01-fundamentals/guided-projects/project-05-username-generator/main.py", "Python-Mastery-Academy/phase-02-control-flow/README.md", "Python-Mastery-Academy/phase-02-control-flow/concepts/lesson-01-if-elif-else.md", "Python-Mastery-Academy/phase-02-control-flow/concepts/lesson-03-while-loops.md", "Python-Mastery-Academy/phase-02-control-flow/concepts/lesson-04-for-loops.md", "Python-Mastery-Academy/phase-02-control-flow/demos/demo-01-conditions.py", "Python-Mastery-Academy/phase-02-control-flow/exercises/beginner/exercises.md", "Python-Mastery-Academy/phase-02-control-flow/guided-projects/project-02-atm-menu/main.py", "Python-Mastery-Academy/phase-03-collections/README.md", "Python-Mastery-Academy/phase-03-collections/concepts/lesson-01-lists.md", "Python-Mastery-Academy/phase-03-collections/concepts/lesson-02-tuples.md", "Python-Mastery-Academy/phase-03-collections/concepts/lesson-03-sets.md", "Python-Mastery-Academy/phase-03-collections/concepts/lesson-04-dictionaries.md", "Python-Mastery-Academy/phase-03-collections/demos/demo-01-lists.py", "Python-Mastery-Academy/phase-03-collections/demos/demo-02-dictionaries.py", "Python-Mastery-Academy/phase-03-collections/exercises/beginner/exercises.md", "Python-Mastery-Academy/phase-04-functions/README.md", "Python-Mastery-Academy/phase-04-functions/concepts/lesson-01-basics.md", "Python-Mastery-Academy/phase-04-functions/concepts/lesson-04-args-kwargs.md", "Python-Mastery-Academy/phase-04-functions/demos/demo-01-functions.py", "Python-Mastery-Academy/phase-04-functions/guided-projects/project-01-calculator-engine/main.py", "Python-Mastery-Academy/phase-05-file-handling/README.md", "Python-Mastery-Academy/phase-05-file-handling/concepts/lesson-01-text-files.md", "Python-Mastery-Academy/phase-05-file-handling/concepts/lesson-02-csv.md", "Python-Mastery-Academy/phase-05-file-handling/concepts/lesson-03-json.md", "Python-Mastery-Academy/phase-06-error-handling/README.md", "Python-Mastery-Academy/phase-06-error-handling/concepts/lesson-01-try-except.md", "Python-Mastery-Academy/phase-06-error-handling/concepts/lesson-04-raise.md", "Python-Mastery-Academy/phase-07-oop/README.md", "Python-Mastery-Academy/phase-07-oop/cheat-sheets/oop-cheatsheet.md", "Python-Mastery-Academy/phase-07-oop/concepts/lesson-01-classes.md", "Python-Mastery-Academy/phase-07-oop/concepts/lesson-03-inheritance.md", "Python-Mastery-Academy/phase-07-oop/guided-projects/project-03-banking-system/main.py", "Python-Mastery-Academy/phase-08-intermediate-projects/README.md", "Python-Mastery-Academy/phase-08-intermediate-projects/projects/todo-app/main.py", "Python-Mastery-Academy/phase-09-databases/README.md", "Python-Mastery-Academy/phase-09-databases/concepts/lesson-02-sqlite.md", "Python-Mastery-Academy/phase-09-databases/guided-projects/project-01-student-app/main.py", "Python-Mastery-Academy/phase-10-web-scraping/README.md", "Python-Mastery-Academy/phase-11-apis/README.md", "Python-Mastery-Academy/phase-11-apis/guided-projects/project-01-weather-dashboard/main.py", "Python-Mastery-Academy/phase-12-automation/README.md", "Python-Mastery-Academy/phase-13-data-analysis/README.md", "Python-Mastery-Academy/phase-13-data-analysis/guided-projects/project-01-sales-dashboard/main.py", "Python-Mastery-Academy/phase-14-testing/README.md", "Python-Mastery-Academy/phase-14-testing/guided-projects/project-01-calculator-tests/test_calculator.py", "Python-Mastery-Academy/phase-15-gui/README.md", "Python-Mastery-Academy/phase-16-web-development/README.md", "Python-Mastery-Academy/phase-17-advanced-python/README.md", "Python-Mastery-Academy/phase-17-advanced-python/concepts/lesson-01-decorators.md", "Python-Mastery-Academy/phase-17-advanced-python/concepts/lesson-02-generators.md", "Python-Mastery-Academy/phase-18-business-projects/README.md", "Python-Mastery-Academy/phase-18-business-projects/employee-management-system/docs/requirements.md", "Python-Mastery-Academy/phase-18-business-projects/employee-management-system/src/main.py", "Python-Mastery-Academy/phase-19-software-engineering/README.md", "Python-Mastery-Academy/phase-20-capstone/README.md", "Python-Mastery-Academy/phase-20-capstone/docs/deployment-guide.md", "Python-Mastery-Academy/phase-20-capstone/src/main.py", "Python-Mastery-Academy/portfolio-projects/01-sales-analytics-dashboard/README.md", "Python-Mastery-Academy/portfolio-projects/07-rest-api-platform/README.md", "Python-Mastery-Academy/portfolio-projects/README.md", "Python-Mastery-Academy/practice-engine/quiz_engine.py", "Python-Mastery-Academy/practice-engine/score_tracker.py"]);
+
     const params = new URLSearchParams(location.search);
     const rawPath = params.get('path') || 'Python-Mastery-Academy/README.md';
 
@@ -198,18 +203,51 @@
       return r.join('/');
     }
 
+    function resolveRelativeUrl(href) {
+      if (!href || /^(https?:\/\/|mailto:|tel:|#)/i.test(href)) return href;
+      const base = rawPath.substring(0, rawPath.lastIndexOf('/') + 1);
+      return resolvePath(base + href);
+    }
+
     // Configure marked renderer
     const renderer = new marked.Renderer();
 
     renderer.link = function(href, title, text) {
       if (!href) return `<a>${text}</a>`;
-      if (href.endsWith('.md') && !href.startsWith('http')) {
-        const base = rawPath.substring(0, rawPath.lastIndexOf('/')+1);
-        const resolved = resolvePath(base + href);
-        return `<a href="lesson.html?path=${encodeURIComponent(resolved)}">${text}</a>`;
+      if (/^(https?:\/\/|mailto:|tel:|#)/i.test(href)) {
+        const isExt = /^https?:\/\//i.test(href);
+        return `<a href="${href}" ${isExt ? 'target="_blank" rel="noopener"' : ''}>${text}</a>`;
       }
-      const ext = href.startsWith('http');
-      return `<a href="${href}" ${ext?'target="_blank" rel="noopener"':''}>${text}</a>`;
+
+      // Resolve relative path
+      let resolved = resolveRelativeUrl(href);
+      const cleanTarget = resolved.replace(/[?#].*$/, '');
+      const ext = cleanTarget.includes('.') ? cleanTarget.split('.').pop().toLowerCase() : '';
+
+      // If directory link (e.g. guided-projects/project-01-greeting-app/)
+      if (!ext) {
+        const baseDir = cleanTarget.endsWith('/') ? cleanTarget : cleanTarget + '/';
+        const withReadme = baseDir + 'README.md';
+        const withMain = baseDir + 'main.py';
+        if (KNOWN_FILES.has(withReadme)) resolved = withReadme;
+        else if (KNOWN_FILES.has(withMain)) resolved = withMain;
+        else resolved = withReadme;
+      }
+
+      if (resolved.endsWith('.html')) {
+        return `<a href="${resolved}">${text}</a>`;
+      }
+
+      return `<a href="lesson.html?path=${encodeURIComponent(resolved)}">${text}</a>`;
+    };
+
+    renderer.image = function(href, title, text) {
+      if (!href) return '';
+      let src = href;
+      if (!/^(https?:\/\/|data:)/i.test(href)) {
+        src = resolveRelativeUrl(href);
+      }
+      return `<img src="${src}" alt="${text || ''}" title="${title || ''}" class="rounded-xl border border-white/10 my-4 max-w-full">`;
     };
 
     renderer.code = function(code, lang) {
@@ -299,7 +337,6 @@
       return m;
     }
 
-    // Try local relative path first (works after .nojekyll), fallback to jsDelivr CDN
     const REPO = 'ShorrohS/InteractivePythonfromScratch';
     const BRANCH = 'main';
     const CDN_URL = `https://cdn.jsdelivr.net/gh/${REPO}@${BRANCH}/${rawPath}`;
@@ -307,38 +344,74 @@
     async function load() {
       buildBreadcrumb(rawPath);
       try {
-        // Primary: relative fetch (same-origin, works with .nojekyll)
         let res = await fetch(rawPath);
-        // Fallback: jsDelivr CDN (always works, cached globally, CORS-safe)
         if (!res.ok) {
           res = await fetch(CDN_URL);
         }
-        if (!res.ok) throw new Error('HTTP '+res.status+': '+res.statusText);
+        if (!res.ok) throw new Error('HTTP ' + res.status + ': ' + res.statusText);
         const text = await res.text();
 
-        const h1 = text.match(/^#\s+(.+)$/m);
-        document.title = (h1?h1[1]:rawPath.split('/').pop().replace('.md','')) + ' — Python Mastery Academy';
+        const fileExt = rawPath.split('.').pop().toLowerCase();
+        const fileName = rawPath.split('/').pop();
+        let contentToRender = text;
+
+        if (fileExt === 'py') {
+          document.title = fileName + ' — Python Mastery Academy';
+          contentToRender = `# 🐍 \`${fileName}\`\n\n` +
+            `> **Python Source Script** • Master implementation details & syntax.\n\n` +
+            `\`\`\`python\n${text}\n\`\`\`\n\n` +
+            `---\n\n` +
+            `### ⚡ Run this script locally:\n` +
+            `\`\`\`bash\npython "${rawPath}"\n\`\`\``;
+        } else if (['json', 'sql', 'sh', 'txt', 'csv'].includes(fileExt)) {
+          document.title = fileName + ' — Python Mastery Academy';
+          contentToRender = `# 📄 \`${fileName}\`\n\n\`\`\`${fileExt}\n${text}\n\`\`\``;
+        } else {
+          const h1 = text.match(/^#\s+(.+)$/m);
+          document.title = (h1 ? h1[1] : fileName.replace('.md','')) + ' — Python Mastery Academy';
+        }
 
         const meta = extractMeta(text);
-        if (meta.phase||meta.time) {
+        if (meta.phase || meta.time) {
           document.getElementById('meta-card').classList.remove('hidden');
           if (meta.phase) document.getElementById('meta-phase').textContent = meta.phase;
           if (meta.time) document.getElementById('meta-time').querySelector('span').textContent = meta.time;
-          if (meta.prereq) document.getElementById('meta-prereq').textContent = 'Requires: '+meta.prereq;
+          if (meta.prereq) document.getElementById('meta-prereq').textContent = 'Requires: ' + meta.prereq;
         }
 
         const out = document.getElementById('md-output');
-        out.innerHTML = marked.parse(text);
+        out.innerHTML = marked.parse(contentToRender);
         document.getElementById('skeleton').classList.add('hidden');
         out.classList.remove('hidden');
         document.getElementById('bottom-nav').classList.remove('hidden');
-        document.getElementById('file-info').textContent = rawPath.split('/').pop();
+        document.getElementById('file-info').textContent = fileName;
         buildTOC();
       } catch(err) {
         document.getElementById('skeleton').classList.add('hidden');
         document.getElementById('error-state').classList.remove('hidden');
-        document.getElementById('error-msg').textContent = 'Could not load "'+rawPath+'". '+err.message;
-        document.title = 'Not Found — Python Mastery Academy';
+
+        // Check if this belongs to a known phase
+        const phaseMatch = rawPath.match(/(phase-\d+-[^/]+)/);
+        if (phaseMatch) {
+          const phaseName = phaseMatch[1];
+          const parentReadme = 'Python-Mastery-Academy/' + phaseName + '/README.md';
+          const pLink = document.getElementById('phase-parent-link');
+          pLink.href = 'lesson.html?path=' + encodeURIComponent(parentReadme);
+          pLink.textContent = 'View ' + phaseName.replace(/-/g, ' ') + ' &#8594;';
+          pLink.classList.remove('hidden');
+        }
+
+        const isPlanned = rawPath.includes('concept') || rawPath.includes('lesson-');
+        if (isPlanned) {
+          document.getElementById('state-icon').innerHTML = '&#128640;';
+          document.getElementById('state-title').textContent = 'Lesson In Progress';
+          document.getElementById('error-msg').textContent = 'This module ("' + rawPath.split('/').pop().replace(/\.[^/.]+$/, '') + '") is currently in development as part of the full-stack curriculum roadmap. Check out the phase overview below or explore other lessons!';
+        } else {
+          document.getElementById('state-icon').innerHTML = '&#128269;';
+          document.getElementById('state-title').textContent = 'Page Not Found';
+          document.getElementById('error-msg').textContent = 'Could not load "' + rawPath + '". ' + err.message;
+        }
+        document.title = 'Module In Progress — Python Mastery Academy';
       }
     }
 
@@ -346,4 +419,3 @@
   </script>
 </body>
 </html>
-
